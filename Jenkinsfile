@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         
-        stage(''){
+        stage('Get source'){
             steps{
                 git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
             }
