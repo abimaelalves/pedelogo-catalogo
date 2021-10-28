@@ -3,15 +3,25 @@ pipeline {
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
   }
-  
+
   agent any 
   
   stages { 
-      stage('Cloning our Git') { 
-          steps { 
-              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main' 
-          }
-      } 
+        stage('Cloning Git') { 
+            steps { 
+                git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main' 
+            }
+        } 
+
+        stage('Building image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
+        }
+
+
 
       } 
       
