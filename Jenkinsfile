@@ -24,7 +24,7 @@ pipeline {
     stage('Building image') {
          steps {
             script {
-               dockerImage = docker.build registry + '-f ./src/PedeLogo.Catalogo.Api/Dockerfile":latest"'
+               dockerImage = docker.build registry + ' -f ./src/PedeLogo.Catalogo.Api/Dockerfile":latest"'
             }
          }
       }
