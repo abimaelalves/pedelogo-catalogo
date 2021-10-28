@@ -10,7 +10,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -t abimasantos/pedelogo-catalogo:latest .'
+        sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
     }
 
