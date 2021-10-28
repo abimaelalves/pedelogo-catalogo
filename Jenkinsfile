@@ -24,7 +24,7 @@ pipeline {
       stage('Deploy our image') { 
           steps { 
               script { 
-                  docker.withRegistry( "''${env.BUILD_ID}", '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .' registryCredential ) { 
+                  docker.withRegistry( ''${env.BUILD_ID}, '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .' registryCredential ) { 
                       dockerImage.push() 
                   }
               } 
