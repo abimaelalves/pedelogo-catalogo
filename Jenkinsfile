@@ -1,49 +1,40 @@
-pipeline {
-    agent any
+pipeline { 
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub_id' 
+      dockerImage = '' 
+  }
+  agent any 
+  
+  stages { 
+      stage('Cloning our Git') { 
+          steps { 
+              git 'https://github.com/abimaelalves/pedelogo-catalogo.git' 
+          }
+      } 
 
-    ${env.BUILD_ID}s {
-        
-        ${env.BUILD_ID}('Get source'){
-            steps{
-                git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-            }
-        }
+      stage('Building our image') { 
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+              }
+          } 
+      }
+      stage('Deploy our image') { 
+          steps { 
+              script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                      dockerImage.push() 
+                  }
+              } 
+          }
+      } 
+      stage('Cleaning up') { 
+          steps { 
+              sh "docker rmi $registry:$BUILD_NUMBER" 
+          }
+      } 
+  }
+}
 
-        ${env.BUILD_ID}('Build and Push ${env.BUILD_ID} image') {
-                when {
-                    branch 'main'
-                }
-                steps {
-                    script {
-                    docker.withRegistry('') {
-                        sh "docker build --build-arg -t abimasantos/pedelogo-catalogo:${env.BUILD_ID},
-                            ' -f ./src/PedeLogo.Catalogo.Api/Dockerfile .' "
-                        docker.image('somos99:${env.BUILD_ID}').push()
-                    }
-                    }
-                }
-                }
-    }
-}       
-//
-//        ${env.BUILD_ID}('Docker Build'){
-//            steps {
-//                script {
-//                    dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-//                    '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-//                }
-//            }
-//        }
-//
-//        ${env.BUILD_ID}('Docker Push Image'){
-//            steps {
-//                script{
-//                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-//                    dockerapp.push('latest')
-//                    dockerapp.push("${env.BUILD_ID}")
-//                }
-//            }
-//
-//        }
-//    }
-//}
+
