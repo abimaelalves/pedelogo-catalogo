@@ -2,8 +2,8 @@ pipeline {
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
-      dockerImage = '' 
   }
+  
   agent any 
   
   stages { 
@@ -13,22 +13,6 @@ pipeline {
           }
       } 
 
-      stage('Building our image') { 
-          steps { 
-              script { 
-                  dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-              }
-          } 
-      }
-        
-//      stage('Deploy our image') { 
-//          steps { 
-//              script { 
-//                  docker.withRegistry( '' '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'":$BUILD_NUMBER" registryCredential ) { 
-//                      dockerImage.push() 
-//                  }
-//              } 
-//          }
       } 
       
   }
