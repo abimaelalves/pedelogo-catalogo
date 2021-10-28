@@ -1,9 +1,4 @@
 pipeline { 
-    environment {
-    registry = "abimasantos/pedelogo-catalogo"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
     agent any
 
 
@@ -20,13 +15,10 @@ pipeline {
         sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
     }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
+
+    stage('Push') {
+      steps {
+        sh 'docker push abimasantos/pedelogo-catalogo:latest'
       }
     }
   }
