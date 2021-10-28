@@ -16,6 +16,7 @@ pipeline {
 
     stage('Push') {
       steps {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
         sh 'docker push abimasantos/pedelogo-catalogo:latest'
       }
     }
