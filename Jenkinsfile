@@ -21,23 +21,15 @@ pipeline {
         sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
     }
-
-    stage('List images') {
-      steps {
-        sh 'docker images'
-      }
-    }
     
-    stage('Docker Login') {
-      steps {
-        sh 'docker login -u “abimasantos” -p “Fbr2021!@#” docker.io'
-      }
+    stage('Deploy Image') {
+    steps {
+    script {
+        docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+        }
     }
-
-    stage('Push') {
-      steps {
-        sh 'docker push abimasantos/pedelogo-catalogo:latest'
-      }
+    }
     }
   }
 }
