@@ -1,7 +1,7 @@
 pipeline { 
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub_id' 
+      registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
   agent any 
