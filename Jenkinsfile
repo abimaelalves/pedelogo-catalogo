@@ -33,7 +33,7 @@ pipeline {
     steps {
     script {
         docker.withRegistry('', registryCredential) {
-            sh 'docker push abimasantos/pedelogo-catalogo:latest'
+            sh 'docker push abimasantos/pedelogo-catalogo:$BUILD_NUMBER'
         }
     }
     }
