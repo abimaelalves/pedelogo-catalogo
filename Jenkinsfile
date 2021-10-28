@@ -13,13 +13,15 @@ pipeline {
           }
       } 
 
-      stage('Building our image') { 
-          steps { 
-              script { 
-                  dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-              }
-          } 
-      }
+        stage('Docker Build'){
+            steps {
+                script {
+                    dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+                    '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+                }
+            }
+        }
+        
       stage('Deploy our image') { 
           steps { 
               script { 
