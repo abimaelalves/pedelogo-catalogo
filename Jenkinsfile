@@ -9,7 +9,7 @@ pipeline {
   stages { 
       stage('Cloning our Git') { 
           steps { 
-              git 'https://github.com/abimaelalves/pedelogo-catalogo.git' 
+              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main' 
           }
       } 
 
