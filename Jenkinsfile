@@ -17,7 +17,7 @@ pipeline {
 
     stage('Build docker image') {
       steps {
-        sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+        sh 'docker build -t registry + -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
     }
     
