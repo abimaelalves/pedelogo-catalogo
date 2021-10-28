@@ -15,19 +15,11 @@ pipeline {
         }
     }
 
-//    stage('Build docker image') {
-//      steps {
-//        sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-//      }
-//    }
-
-    stage('Building image') {
-         steps {
-            script {
-               dockerImage = docker.build registry +':v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile' 
-            }
-         }
+    stage('Build docker image') {
+      steps {
+        sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
+    }
     
     stage('Push docker Image') {
     steps {
