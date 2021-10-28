@@ -8,7 +8,7 @@ pipeline {
    stages {
       stage('Cloning Git') {
          steps {
-            git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git'
          }
       }
       stage('Building image') {
