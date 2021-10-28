@@ -1,11 +1,11 @@
-pipeline {
-  environment {
+pipeline { 
+    environment {
     registry = "abimasantos/pedelogo-catalogo"
     registryCredential = 'dockerhub'
     dockerImage = ''
-  }   
-    
+  }
     agent any
+
 
   stages {
     stage('Get source'){
@@ -20,7 +20,6 @@ pipeline {
         sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
       }
     }
-    
     stage('Deploy Image') {
       steps{
         script {
@@ -29,6 +28,6 @@ pipeline {
           }
         }
       }
+    }
   }
-}
 }
