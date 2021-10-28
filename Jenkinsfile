@@ -27,6 +27,12 @@ pipeline {
         sh 'docker images'
       }
     }
+    
+    stage('List images') {
+      steps {
+        sh 'docker login -u “abimasantos” -p “Fbr2021!@#” docker.io'
+      }
+    }
 
     stage('Push') {
       steps {
