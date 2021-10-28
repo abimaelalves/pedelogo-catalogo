@@ -1,4 +1,10 @@
 pipeline { 
+
+    environment {
+      registry = "abimaesantos/pedelogo-catalogo"
+      registryCredential = 'dockerhub'
+   }
+    
     agent any
 
 
