@@ -1,37 +1,34 @@
 pipeline {
-  environment {
-    registry = "abimasantos/pedelogo-catalogo"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
-  
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git'
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    agent any
+
+    stages {
+        
+        stage('Get source'){
+            steps{
+                git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+            }
         }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
+
+        stage('Docker Build'){
+            steps {
+                script {
+                    dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+                    '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+                }
+            }
         }
-      }
+
+        stage('Docker Push Image'){
+            steps {
+                script{
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+                    dockerapp.push('latest')
+                    dockerapp.push("${env.BUILD_ID}")
+                }
+            }
+
+        }
     }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
-  }
 }
