@@ -21,14 +21,14 @@ pipeline {
           } 
       }
         
-      stage('Deploy our image') { 
-          steps { 
-              script { 
-                  docker.withRegistry( '' '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'":$BUILD_NUMBER" registryCredential ) { 
-                      dockerImage.push() 
-                  }
-              } 
-          }
+//      stage('Deploy our image') { 
+//          steps { 
+//              script { 
+//                  docker.withRegistry( '' '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'":$BUILD_NUMBER" registryCredential ) { 
+//                      dockerImage.push() 
+//                  }
+//              } 
+//          }
       } 
       stage('Cleaning up') { 
           steps { 
