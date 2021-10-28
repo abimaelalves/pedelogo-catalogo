@@ -16,8 +16,7 @@ pipeline {
 
     stage('Push') {
       steps {
-        sh 'docker push abimasantos/pedelogo-catalogo:latest'
-        docker.image('abimasantos/pedelogo-catalogo:latest').push()
+        sh 'docker images'
       }
     }
   }
