@@ -13,7 +13,7 @@ pipeline {
         steps {
           script {
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-              '-f /src/PedeLogo.Catalogo.Api/Dockerfile .') 
+              '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .') 
           }
         }
       }
