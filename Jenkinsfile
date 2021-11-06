@@ -27,7 +27,7 @@ pipeline {
       stage ('Docker Push Image'){
         steps {
           script {
-            docker.withRegistry('' registryCredential)
+            docker.withRegistry('', registryCredential)
             dockerapp.push('latest')
             dockerapp.push("${env.BUILD_ID}")
 
