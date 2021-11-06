@@ -3,6 +3,7 @@ pipeline {
     environment {
       registry = "abimaesantos/pedelogo-catalogo"
       registryCredential = 'dockerhub'
+      dockerapp = ''
    }
 
     agent any
