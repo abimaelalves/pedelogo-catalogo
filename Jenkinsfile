@@ -38,7 +38,19 @@ pipeline {
             sh "docker rmi $registry:latest" 
           }
       } 
-
+      
+      stage('Deploy Kubernetes'){
+          agent {
+            kubernetes {
+                cloud 'kubernetes'
+            }
+          
+            steps{
+                kubernetes.Deploy(config: '**/k8s/**', 'kubeconfig')
+            }
+          
+          }
+      }
   }
 }
 
