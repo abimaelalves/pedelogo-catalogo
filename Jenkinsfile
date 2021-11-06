@@ -35,6 +35,7 @@ pipeline {
       stage('Cleaning up') { 
           steps { 
             sh "docker rmi $registry:${env.BUILD_ID}" 
+            sh "docker rmi $registry:latest" 
           }
       } 
 
