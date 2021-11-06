@@ -46,7 +46,7 @@ pipeline {
             }
           }
             steps{
-                kubernetes.Deploy(config: '**/k8s/**', kubeconfigid: 'kubeconfig')
+                kubernetesDeploy(config: '**/k8s/**', kubeconfigid: 'kubeconfig')
             }                    
       }
   }
