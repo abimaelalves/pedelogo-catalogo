@@ -9,25 +9,27 @@ pipeline {
         }
       }
 
-      stage ('Docker Build') {
-        steps {
-          script {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-              '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .') 
-          }
-        }
-      }
-
-      stage ('Docker Push Image'){
+      stage ('Docker Build AND push') {
         steps {
           script {
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-            dockerapp.push('latest')
-            dockerapp.push("${env.BUILD_ID}")
-
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+              '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .').push('latest')
           }
         }
       }
+      
+        
+//      stage ('Docker Push Image'){
+//        steps {
+//          script {
+//            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+//            dockerapp.push('latest')
+//            dockerapp.push("${env.BUILD_ID}")
+//
+//          }
+//        }
+//      }
 
 
     }
