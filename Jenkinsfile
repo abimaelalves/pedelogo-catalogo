@@ -41,12 +41,12 @@ pipeline {
       
       stage('Deploy Kubernetes'){
           agent {
-            kubernetes {
+            Kubernetes {
                 cloud 'kubernetes'
             }
           
             steps{
-                kubernetes.Deploy(config: '**/k8s/**', 'kubeconfig')
+                kubernetes.Deploy(config: '**/k8s/**', kubeconfigid: 'kubeconfig')
             }
           
           }
