@@ -1,4 +1,10 @@
 pipeline {
+
+    environment {
+      registry = "abimaesantos/pedelogo-catalogo"
+      registryCredential = 'dockerhub'
+   }
+
     agent any
 
     stages {
@@ -9,27 +15,25 @@ pipeline {
         }
       }
 
-      stage ('Docker Build AND push') {
+      stage ('Docker Build') {
         steps {
           script {
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-              '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .').push('latest')
+              '-f /src/PedeLogo.Catalogo.Api/Dockerfile .') 
           }
         }
       }
-      
-        
-//      stage ('Docker Push Image'){
-//        steps {
-//          script {
-//            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-//            dockerapp.push('latest')
-//            dockerapp.push("${env.BUILD_ID}")
-//
-//          }
-//        }
-//      }
+
+      stage ('Docker Push Image'){
+        steps {
+          script {
+            docker.withRegistry('', registryCredential)
+            dockerapp.push('latest')
+            dockerapp.push("${env.BUILD_ID}")
+
+          }
+        }
+      }
 
 
     }
