@@ -40,7 +40,7 @@ pipeline {
       } 
       
       stage('Deploy Kubernetes'){
-          agent {
+          agent kubernetes {
             kubernetes {
                 cloud 'kubernetes'
             }
