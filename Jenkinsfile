@@ -39,16 +39,17 @@ pipeline {
           }
       } 
       
-      stage('Deploy Kubernetes'){
-          agent {
-            kubernetes {
-                cloud 'kubernetes'
-            }
-          }
-            steps{
-                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-            }                    
-      }
+//      stage('Deploy Kubernetes'){
+//          agent {
+//            kubernetes {
+//                cloud 'kubernetes'
+//            }
+//          }
+//            steps{
+//                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+//            }                    
+//      }
+
   }
 }
 
