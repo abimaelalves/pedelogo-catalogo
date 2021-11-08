@@ -46,28 +46,17 @@ pipeline {
                 label "jnlp"       // jnlp pod template label
             }
         }
-        stages {
-            stage("Print Env") {
-                steps {
-                    container("jnlp")  {
-                        sh "printenv"
-                        sh "sleep 60"
-                    }
-                }
-            }
-        }
-    }
 
-//      stage('Deploy Kubernetes'){
-//          agent {
-//            kubernetes {
-//                cloud 'kubernetes'
-//            }
-//          }
-//            steps{
-//                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-//            }                    
-//      }
+      stage('Deploy Kubernetes'){
+          agent {
+            kubernetes {
+                cloud 'kubernetes'
+            }
+          }
+            steps{
+                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+            }                    
+      }
 
   }
 }
