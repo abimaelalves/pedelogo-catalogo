@@ -43,7 +43,7 @@ pipeline {
        steps {
          echo "Deploy k8s"
             container('kubectl-container'){
-               withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.8:6443']) {
+               withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
                 sh """
                 kubectl -n plannexo apply -f k8s/mongodb/deployment.yaml
                 """
