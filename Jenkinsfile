@@ -39,11 +39,16 @@ pipeline {
           }
       } 
       
-        podTemplate(label: 'mypod') {
-        node('mypod') {
-        sh 'Hello world!'
-        }
-        }
+      stage('Deploy Kubernetes'){
+          agent {
+            kubernetes {
+                cloud 'kubernetes'
+            }
+          }
+            steps{
+                kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'kubeconfig')
+            }                    
+      }
   }
 }
 
