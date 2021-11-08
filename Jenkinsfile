@@ -39,7 +39,7 @@ pipeline {
           }
       } 
 
-      stage {      
+      stage ('teste') {
         agent {
             kubernetes {
                 cloud "kubernetes" // Cloud Kubernetes Name
