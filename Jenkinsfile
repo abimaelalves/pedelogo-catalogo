@@ -39,14 +39,6 @@ pipeline {
           }
       } 
 
-      stage ('teste') {
-        agent {
-            kubernetes {
-                cloud "kubernetes" // Cloud Kubernetes Name
-                label "jnlp"       // jnlp pod template label
-            }
-        }
-
       stage('Deploy Kubernetes'){
           agent {
             kubernetes {
