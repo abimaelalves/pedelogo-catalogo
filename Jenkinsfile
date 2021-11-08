@@ -39,18 +39,29 @@ pipeline {
           }
       } 
 
-
-
-      stage('Deploy Kubernetes'){
-          agent {
-            kubernetes {
-                cloud 'kubernetes'
+     stage('Deploy Kubernetes') {
+       steps {
+         echo "Deploy k8s"
+            container('kubectl-container'){
+               withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.8:6443']) {
+                sh """
+                kubectl -n plannexo apply -f k8s/mongodb/deployment.yaml
+                """
+              }
             }
-          }
-            steps{
-                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-            }                    
-      }
+       }
+     }
+
+//      stage('Deploy Kubernetes'){
+//          agent {
+//            kubernetes {
+//                cloud 'kubernetes'
+//            }
+//          }
+//            steps{
+//                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+//            }                    
+//      }
 
 /////////// fecha pipeline ////////
   }
