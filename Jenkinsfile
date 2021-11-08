@@ -45,7 +45,7 @@ pipeline {
             container('kubectl-container'){
                withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
                 sh """
-                kubectl -n plannexo apply -f k8s/mongodb/deployment.yaml
+                kubectl apply -f k8s/mongodb/deployment.yaml
                 """
               }
             }
