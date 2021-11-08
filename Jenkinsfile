@@ -46,7 +46,8 @@ pipeline {
             }
           }
             steps{
-                kubernetesDeploy(configs: 'k8s/api/deployment.yaml', kubeconfigId: 'kubeconfig')
+                kubernetesDeploy(configs: 'k8s/api/*', kubeconfigId: 'kubeconfig')
+                kubernetesDeploy(configs: 'k8s/mongo/*', kubeconfigId: 'kubeconfig')
             }                    
       }
   }
