@@ -38,6 +38,8 @@ pipeline {
             sh "docker rmi $registry:latest" 
           }
       } 
+  }
+}
 
 //      stage('Deploy Kubernetes'){
 //          agent {
