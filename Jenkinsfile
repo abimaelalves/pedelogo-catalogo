@@ -38,7 +38,26 @@ pipeline {
             sh "docker rmi $registry:latest" 
           }
       } 
-      
+
+      stage {      
+        agent {
+            kubernetes {
+                cloud "kubernetes" // Cloud Kubernetes Name
+                label "jnlp"       // jnlp pod template label
+            }
+        }
+        stages {
+            stage("Print Env") {
+                steps {
+                    container("jnlp")  {
+                        sh "printenv"
+                        sh "sleep 60"
+                    }
+                }
+            }
+        }
+    }
+
 //      stage('Deploy Kubernetes'){
 //          agent {
 //            kubernetes {
