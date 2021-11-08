@@ -38,22 +38,23 @@ pipeline {
             sh "docker rmi $registry:latest" 
           }
       } 
+
+
+
+      stage('Deploy Kubernetes'){
+          agent {
+            kubernetes {
+                cloud 'kubernetes'
+            }
+          }
+            steps{
+                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+            }                    
+      }
+
+/////////// fecha pipeline ////////
   }
 }
-
-//      stage('Deploy Kubernetes'){
-//          agent {
-//            kubernetes {
-//                cloud 'kubernetes'
-//            }
-//          }
-//            steps{
-//                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-//            }                    
-//      }
-//
-//  }
-//}
 
 // pipeline abaixo funcionou, deixando como opção de uso
 //pipeline { 
