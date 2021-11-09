@@ -39,18 +39,52 @@ pipeline {
           }
       } 
 
-     stage('Deploy Kubernetes') {
-       steps {
-         echo "Deploy k8s"
-            container('kubectl-container'){
-               withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
-                sh """
-                kubectl apply -f k8s/mongodb/deployment.yaml
-                """
-              }
-            }
-       }
-     }
+    stage('KinD up'){
+      steps {
+        sh '''
+        kind version
+        '''
+        // export KUBECONFIG env var used later by kind and kubectl
+        script {
+          env.KUBECONFIG = sh(
+            returnStdout: true,
+            script: 'kind get kubeconfig-path --name="kind"'
+            ).trim()
+        }
+      }
+    }
+
+    stage('KinD info'){
+      steps {
+        sh '''
+        export | sort
+        kubectl cluster-info
+        kubectl get nodes
+        kubectl get pods -A
+        '''
+      }
+    }
+
+    stage('k8s'){
+      steps {
+        sh '''
+        kubectl apply -f k8s/mongodb/deployment.yaml
+        '''
+      }
+    }
+
+//     stage('Deploy Kubernetes') {
+//       steps {
+//         echo "Deploy k8s"
+//            container('kubectl-container'){
+//               withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
+//                sh """
+//                kubectl apply -f k8s/mongodb/deployment.yaml
+//                """
+//              }
+//            }
+//       }
+//     }
 
 //      stage('Deploy Kubernetes'){
 //          agent {
