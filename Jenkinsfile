@@ -39,7 +39,7 @@ pipeline {
           }
       } 
 
-     stage('Deploy QA') {
+     stage('Deploy K8s') {
        steps {
          echo "Deploy k8s"
             container('kubectl-container'){
