@@ -12,7 +12,7 @@ spec:
       mountPath: /var/run
   volumes:
   - name: docker-sock                             
-      hostPath: 
+    hostPath: 
         path: /var/run       
 """
   ) {
