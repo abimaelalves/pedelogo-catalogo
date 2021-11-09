@@ -45,11 +45,11 @@ pipeline {
          kubernetes {
              cloud 'kubernetes'
          }
+       }
          steps {
              kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfig: 'kubeconfig' )
          }
        }
-     }
 
 //     stage('Deploy Kubernetes') {
 //       steps {
