@@ -1,8 +1,5 @@
 kind: Pod
-spec:
-- name: docker-sock                             
-  hostPath: 
-      path: /var/run    
+spec: 
   containers:
   - name: docker-container
     image: docker:19.03.8
@@ -34,3 +31,7 @@ spec:
   - name: dockerhub
   nodeSelector:
     nodegroup-type: node-jks
+  volumes:
+  - name: docker-sock                             
+    hostPath: 
+        path: /var/run   
