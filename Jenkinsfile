@@ -43,7 +43,7 @@ pipeline {
      stage('Deploy K8s') {
        steps {
          echo "Deploy k8s"
-              withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
+              withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.8:6443']) {
                 sh """
                 kubectl apply -f k8s/mongodb/deployment.yaml
                 """
