@@ -42,33 +42,7 @@ pipeline {
     stage('KinD up'){
       steps {
         sh '''
-        kind version
-        '''
-        // export KUBECONFIG env var used later by kind and kubectl
-        script {
-          env.KUBECONFIG = sh(
-            returnStdout: true,
-            script: 'kind get kubeconfig-path --name="kind"'
-            ).trim()
-        }
-      }
-    }
-
-    stage('KinD info'){
-      steps {
-        sh '''
-        export | sort
-        kubectl cluster-info
-        kubectl get nodes
-        kubectl get pods -A
-        '''
-      }
-    }
-
-    stage('k8s'){
-      steps {
-        sh '''
-        kubectl apply -f k8s/mongodb/deployment.yaml
+        kubectl get pod
         '''
       }
     }
