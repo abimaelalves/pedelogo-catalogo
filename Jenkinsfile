@@ -39,13 +39,22 @@ pipeline {
           }
       } 
 
-    stage('KinD up'){
-      steps {
-        sh '''
-        kubectl get pod
-        '''
-      }
-    }
+     stage('Deploy QA') {
+       when {
+         branch 'qa'
+       }
+       steps {
+         echo "Deploy k8s"
+            container('kubectl-container'){
+              withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
+                sh """
+                kubectl apply -f k8s/mongodb/deployment.yaml
+
+                """
+              }
+            }
+       }
+     }
 
 //     stage('Deploy Kubernetes') {
 //       steps {
