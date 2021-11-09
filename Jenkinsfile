@@ -83,8 +83,8 @@ podTemplate {
 //      }
 
 /////////// fecha pipeline ////////
-  }
-}
+//  }
+//}
 
 // pipeline abaixo funcionou, deixando como opção de uso
 //pipeline { 
