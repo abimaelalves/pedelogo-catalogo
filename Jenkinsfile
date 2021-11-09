@@ -1,10 +1,25 @@
+PROJECT_NAME = "api-produto"
+
 pipeline { 
-  environment { 
+  agent { 
+    kubernetes {
+      label "worker-${PROJECT_NAME}-${UUID.randomUUID().toString()}"
+      yamlFile './JenkinsContainers.yml'
+    }
+  }
+  
+  options {
+    parallelsAlwaysFailFast()
+  }
+
+ 
+  environment {
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
-  agent any 
+
+/*Pipeline para o ambiente de QA*/
   stages { 
       stage('Cloning our Git') { 
           steps { 
@@ -39,80 +54,22 @@ pipeline {
           }
       } 
 
-     stage('Deploy K8s') {
+     stage('Deploy K8S') {
+       when {
+         branch 'qa'
+       }
        steps {
          echo "Deploy k8s"
-            container('kubectl-container'){
-              withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
-                sh """
-                kubectl apply -f k8s/mongodb/deployment.yaml
-
-                """
+           container('kubectl-container') {
+             withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
+               sh """
+               kubectl apply -f k8s/mongodb/deployment.yaml
+               """  
               }
             }
-       }
+          }
+
      }
-
-//     stage('Deploy Kubernetes') {
-//       steps {
-//         echo "Deploy k8s"
-//            container('kubectl-container'){
-//               withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
-//                sh """
-//                kubectl apply -f k8s/mongodb/deployment.yaml
-//                """
-//              }
-//            }
-//       }
-//     }
-
-//      stage('Deploy Kubernetes'){
-//          agent {
-//            kubernetes {
-//                cloud 'kubernetes'
-//            }
-//          }
-//            steps{
-//                kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-//            }                    
-//      }
-
-/////////// fecha pipeline ////////
   }
+  
 }
-
-// pipeline abaixo funcionou, deixando como opção de uso
-//pipeline { 
-//
-//    environment {
-//      registry = "abimaesantos/pedelogo-catalogo"
-//      registryCredential = 'dockerhub'
-//   }
-//    
-//    agent any
-//
-//
-//  stages {
-//    stage('Git clone'){
-//        steps{
-//            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-//        }
-//    }
-//
-//    stage('Build docker image') {
-//      steps {
-//        sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-//      }
-//    }
-//    
-//    stage('Push docker Image') {
-//    steps {
-//    script {
-//        docker.withRegistry('', registryCredential) {
-//            sh 'docker push abimasantos/pedelogo-catalogo:v1'
-//        }
-//    }
-//    }
-//    }
-//  }
-//}
