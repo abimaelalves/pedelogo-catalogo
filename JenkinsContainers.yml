@@ -1,0 +1,39 @@
+kind: Pod
+spec:
+  containers:
+  - name: docker-container
+    image: docker:19.03.8
+    command: ['cat']
+    tty: true
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "500Mi"
+        cpu: "1000m"
+    env:
+    - name: REGISTRY
+      value: registry.qa.cloud.bionexo.com.br
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock-volume
+  - name: kubectl-container
+    tty: true
+    image: gcr.io/cloud-builders/kubectl
+    command: ['cat']
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "500Mi"
+        cpu: "1000m"
+  imagePullSecrets:
+  - name: dockerhub
+  nodeSelector:
+    nodegroup-type: node-jks
+  volumes:
+  - name: docker-sock-volume
+    hostPath:
+      path: /var/run/docker.sock
