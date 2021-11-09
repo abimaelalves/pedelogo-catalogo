@@ -40,9 +40,6 @@ pipeline {
       } 
 
      stage('Deploy QA') {
-       when {
-         branch 'qa'
-       }
        steps {
          echo "Deploy k8s"
             container('kubectl-container'){
