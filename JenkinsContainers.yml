@@ -1,5 +1,8 @@
 kind: Pod
 spec:
+- name: docker-sock                             
+  hostPath: 
+      path: /var/run    
   containers:
   - name: docker-container
     image: docker:19.03.8
@@ -13,11 +16,9 @@ spec:
         memory: "500Mi"
         cpu: "1000m"
     env:
-    - name: REGISTRY
-      value: registry.qa.cloud.bionexo.com.br
     volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock-volume
+    - name: docker-sock                           # montando o volume no container
+      mountPath: /var/run 
   - name: kubectl-container
     tty: true
     image: gcr.io/cloud-builders/kubectl
@@ -33,7 +34,3 @@ spec:
   - name: dockerhub
   nodeSelector:
     nodegroup-type: node-jks
-  volumes:
-  - name: docker-sock-volume
-    hostPath:
-      path: /var/run/docker.sock
