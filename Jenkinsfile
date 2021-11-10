@@ -15,7 +15,7 @@ kind: Pod
 spec:
   containers:
   - name: kubectl-container
-    image: abimasantos/containerkubectl:v1
+    image: gcr.io/cloud-builders/kubectl
     command:
     - cat
     tty: true
