@@ -10,7 +10,7 @@ pipeline {
       label 'master'
       defaultContainer 'jnlp'
       yaml """
-apiVersion: apps/v1
+apiVersion: v1
 kind: Pod
 spec:
   containers:
