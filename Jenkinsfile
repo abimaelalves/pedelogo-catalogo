@@ -33,12 +33,13 @@ spec:
     stages { 
       
       
-    stage('Build and Test') {
-      container('docker-container') {
-        echo "hostname"
+      stage('Build and Test') {
+        steps{
+        container('docker-container') {
+          echo "hostname"
+        }
       }
-    }
-
+      }
 
         
     }
