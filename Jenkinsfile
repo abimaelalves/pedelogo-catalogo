@@ -32,7 +32,7 @@ spec:
     stages { 
         stage('Cleaning up') { 
           steps { 
-            sh "hostname" 
+            sh "ls -l /opt" 
             sh "echo teste" 
           }
       } 
