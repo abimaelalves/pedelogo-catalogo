@@ -33,17 +33,16 @@ pipeline {
     stages { 
       
       
-    stage('Build Docker Image') {
-      steps {
-       container('docker-container') {
-          sh 'docker ps'
+      stage('Build Docker Image') {
+        steps {
+          containers ('jenkins-slave'){
+            sh 'docker ps'
           }
-       }
+        }
+      }
+     
     }
-    }
-
-        
-    }
+}
 }
 }
 
