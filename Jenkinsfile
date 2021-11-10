@@ -20,11 +20,14 @@ spec:
     - cat
     tty: true
     volumeMounts:
-    - mountPath: '/opt/app/shared'
-      name: sharedvolume
+    - name: volume-jenkins                        # montando o volume no container
+       mountPath: /var/jenkins_home           
+    - name: docker-sock                           # montando o volume no container
+      mountPath: /var/run 
   volumes:
-  - name: sharedvolume
-    emptyDir: {}
+  - name: docker-sock
+    hostPath: 
+        path: /var/run
 """
     }
   }
