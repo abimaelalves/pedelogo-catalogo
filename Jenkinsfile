@@ -64,10 +64,10 @@ spec:
       } 
 
      stage('Deploy K8s') {
-         steps
+         steps {
             kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig' )
      }
-    
+     }
     }
 
 }
