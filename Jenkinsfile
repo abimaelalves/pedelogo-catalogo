@@ -44,7 +44,6 @@ spec:
               }
           } 
       }
-    }
       
       stage('Deploy our image') { 
           steps { 
@@ -74,6 +73,9 @@ spec:
              kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeConfig: kubeconfig)
          }
     }
+    
+    }
+
 }
 
 //      stage('Deploy our image') { 
