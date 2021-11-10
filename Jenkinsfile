@@ -4,7 +4,7 @@ pipeline {
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
-dockerImage = '' 
+
     agent {
     kubernetes {
       label 'master'
