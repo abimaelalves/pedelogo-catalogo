@@ -10,7 +10,7 @@ pipeline {
       label 'master'
       defaultContainer 'jnlp'
       yaml """
-apiVersion: v1
+apiVersion: apps/v1
 kind: Pod
 spec:
   containers:
@@ -65,7 +65,12 @@ spec:
 
      stage('Deploy K8s') {
          steps {
-            kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig' )
+            kubernetesDeploy(credentialsType: 'KubeConfig',
+                                kubeConfig: [path: '/var/lib/jenkins/workspace/.kube/config'],
+                                configs: 'mypods-deployment.yml', 
+                                dockerCredentials: [
+                                [credentialsId: 'my_registry_creds_id'],
+                                )
      }
      }
     }
