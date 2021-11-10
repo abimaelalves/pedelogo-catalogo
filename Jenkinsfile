@@ -63,17 +63,27 @@ spec:
           }
       } 
 
-     stage('Deploy K8s') {
-         steps {
-            container('kubectl-container'){
-              withKubeConfig([credentialsId: 'config', serverUrl: 'https://192.168.0.8:6443']) {
-                sh """
-                kubectl get pod
-                """
-              }
+        node {
+        stage('List pods') {
+            withKubeConfig([credentialsId: '<kube',
+                            serverUrl: 'https://192.168.0.8:6443'
+                            ]) {
+            sh 'kubectl get pods'
             }
-         }
-       }
+        }
+        }      
+
+//     stage('Deploy K8s') {
+//         steps {
+//            container('kubectl-container'){
+//              withKubeConfig([credentialsId: 'config', serverUrl: 'https://192.168.0.8:6443']) {
+//                sh """
+//                kubectl get pod
+//                """
+//              }
+//            }
+//         }
+//       }
     
     }
 
