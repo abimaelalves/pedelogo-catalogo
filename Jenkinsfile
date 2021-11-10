@@ -14,16 +14,16 @@ pipeline {
         spec:
           containers:
           - name: kubectl-container
-              tty: true
-              image: gcr.io/cloud-builders/kubectl
-              command: ['cat']
-              resources:
-                requests:
-                  memory: "64Mi"
-                  cpu: "50m"
-                limits:
-                  memory: "256Mi"
-                cpu: "100m"
+            image: gcr.io/cloud-builders/kubectl
+            command: ['cat']
+            tty: true            
+            resources:
+            requests:
+                memory: "64Mi"
+                cpu: "50m"
+            limits:
+                memory: "256Mi"
+            cpu: "100m"
             imagePullSecrets:
             - name: dockerhub
             volumes:
