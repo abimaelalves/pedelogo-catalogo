@@ -14,9 +14,9 @@ pipeline {
         spec:
           containers:
           - name: kubectl-container
+            tty: true
             image: gcr.io/cloud-builders/kubectl
             command: ['cat']
-            tty: true            
             resources:
             requests:
                 memory: "64Mi"
