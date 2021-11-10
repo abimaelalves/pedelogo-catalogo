@@ -1,4 +1,9 @@
 pipeline {
+environment { 
+registry = "abimasantos/pedelogo-catalogo" 
+registryCredential = 'dockerhub' 
+}
+dockerImage = '' 
     agent {
     kubernetes {
       label 'master'
