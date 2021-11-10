@@ -64,16 +64,9 @@ spec:
       } 
 
      stage('Deploy K8s') {
-         steps {
-            container('kubectl-container'){
-              withCredentials([file(credentialsId: 'kube', variable: 'KUBECONFIG')]) {
-                sh """
-                kubectl get pod
-                """
-              }
-            }
-         }
-       }
+         steps
+            kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig' )
+     }
     
     }
 
