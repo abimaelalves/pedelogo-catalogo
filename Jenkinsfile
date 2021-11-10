@@ -4,32 +4,24 @@ pipeline {
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
+  agent any 
+  stages { 
+      stage('Cloning our Git') { 
+          steps { 
+              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+          }
+      } 
 
-agent any
-
-  stages {
-    stage('Git clone'){
-        steps{
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-        }
-    }
-
-    stage {
-      agent{
-        kubernetes {
-          cloud 'kubernetes'
-        }
+      stage('Building our image') { 
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+              }
+          } 
       }
-    steps {
-      kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfig: 'kubeconfig' )
-    }
-
   }
-
 }
-}
-
-
 
 
 
