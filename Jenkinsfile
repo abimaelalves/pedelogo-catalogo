@@ -17,15 +17,14 @@ spec:
   - name: kubectl-container
     image: gcr.io/cloud-builders/kubectl
     command:
-    - cat
+    - echo "TESTE"
     tty: true
     volumeMounts:
-    - mountPath: '/var/run'
-      name: docker-sock
+    - mountPath: '/opt/app/shared'
+      name: sharedvolume
   volumes:
-  - name: docker-sock
-    hostPath:
-        path: /var/run
+  - name: sharedvolume
+    emptyDir: {}
 """
     }
   }
@@ -66,9 +65,16 @@ spec:
 
      stage('Deploy K8s') {
          steps {
-            kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig' )
-     }
-     }
+            container('kubectl-container'){
+              withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.8:6443']) {
+                sh """
+                kubectl get pod
+                """
+              }
+            }
+         }
+       }
+    
     }
 
 }
