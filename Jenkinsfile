@@ -17,7 +17,7 @@ spec:
   - name: kubectl-container
     image: gcr.io/cloud-builders/kubectl
     command:
-    - echo "TESTE"
+    - cat
     tty: true
     volumeMounts:
     - mountPath: '/opt/app/shared'
@@ -30,54 +30,63 @@ spec:
   }
   
     stages { 
-      stage('Cloning our Git') { 
+        stage('Cleaning up') { 
           steps { 
-              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+            sh "hostname" 
+            sh "echo teste" 
           }
       } 
-
-      stage('Building our image') { 
-          steps { 
-              script { 
-                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
-                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-              }
-          } 
-      }
-      
-      stage('Deploy our image') { 
-          steps { 
-              script { 
-                  docker.withRegistry( '', registryCredential ) { 
-                  dockerImage.push('latest') 
-                  dockerImage.push("${env.BUILD_ID}")
-                  }
-              } 
-          }
-      } 
-
-      stage('Cleaning up') { 
-          steps { 
-            sh "docker rmi $registry:${env.BUILD_ID}" 
-            sh "docker rmi $registry:latest" 
-          }
-      } 
-
-     stage('Deploy K8s') {
-         steps {
-            container('kubectl-container'){
-              withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://192.168.0.8:6443']) {
-                sh """
-                kubectl get pod
-                """
-              }
-            }
-         }
-       }
-    
     }
-
 }
+
+//      stage('Cloning our Git') { 
+//          steps { 
+//              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+//          }
+//      } 
+//
+//      stage('Building our image') { 
+//          steps { 
+//              script { 
+//                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
+//                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+//              }
+//          } 
+//      }
+//      
+//      stage('Deploy our image') { 
+//          steps { 
+//              script { 
+//                  docker.withRegistry( '', registryCredential ) { 
+//                  dockerImage.push('latest') 
+//                  dockerImage.push("${env.BUILD_ID}")
+//                  }
+//              } 
+//          }
+//      } 
+//
+//      stage('Cleaning up') { 
+//          steps { 
+//            sh "docker rmi $registry:${env.BUILD_ID}" 
+//            sh "docker rmi $registry:latest" 
+//          }
+//      } 
+//
+//     stage('Deploy K8s') {
+//         steps {
+//            container('kubectl-container'){
+//              withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
+//                sh """
+//                kubectl get pod
+//                """
+//              }
+//            }
+//         }
+//       }
+//    
+//    }
+//
+//}
 
 //      stage('Deploy our image') { 
 //          steps { 
