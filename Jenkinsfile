@@ -66,7 +66,7 @@ spec:
      stage('Deploy K8s') {
          steps {
             container('kubectl-container'){
-              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: 'https://192.168.0.8:6443']) {
                 sh """
                 kubectl get pod
                 """
