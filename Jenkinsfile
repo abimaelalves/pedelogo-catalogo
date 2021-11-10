@@ -23,7 +23,7 @@ spec:
     }
   }
   
-  stages { 
+    stages { 
       stage('Cloning our Git') { 
           steps { 
               git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
@@ -38,39 +38,41 @@ spec:
               }
           } 
       }
-
-      stage('Deploy our image') { 
-          steps { 
-              script { 
-                  docker.withRegistry( '', registryCredential ) { 
-                  dockerImage.push('latest') 
-                  dockerImage.push("${env.BUILD_ID}")
-                  }
-              } 
-          }
-      } 
-
-      stage('Cleaning up') { 
-          steps { 
-            sh "docker rmi $registry:${env.BUILD_ID}" 
-            sh "docker rmi $registry:latest" 
-          }
-      } 
-
-     stage('Deploy K8s') {
-         steps {
-            container('kubectl-container'){
-              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
-                sh """
-                kubectl apply -f k8s/mongodb/deployment.yaml
-                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
-                """
-              }
-            }
-         }
-       }
     }
-}    
+}
+
+//      stage('Deploy our image') { 
+//          steps { 
+//              script { 
+//                  docker.withRegistry( '', registryCredential ) { 
+//                  dockerImage.push('latest') 
+//                  dockerImage.push("${env.BUILD_ID}")
+//                  }
+//              } 
+//          }
+//      } 
+//
+//      stage('Cleaning up') { 
+//          steps { 
+//            sh "docker rmi $registry:${env.BUILD_ID}" 
+//            sh "docker rmi $registry:latest" 
+//          }
+//      } 
+//
+//     stage('Deploy K8s') {
+//         steps {
+//            container('kubectl-container'){
+//              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+//                sh """
+//                kubectl apply -f k8s/mongodb/deployment.yaml
+//                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
+//                """
+//              }
+//            }
+//         }
+//       }
+//    }
+//}    
 
 
 //     stage('Deploy Kubernetes') {
