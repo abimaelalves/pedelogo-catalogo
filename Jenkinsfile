@@ -1,7 +1,7 @@
 pipeline {
     agent {
     kubernetes {
-      label 'test-pod'
+      label "project-${UUID.randomUUID().toString()}"
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
