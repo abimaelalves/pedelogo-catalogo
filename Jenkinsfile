@@ -5,46 +5,27 @@ pipeline {
       dockerImage = '' 
   }
 
-    agent {
-    kubernetes {
-//      label 'master'
-//      defaultContainer 'jnlp'
-//      yaml """
-//apiVersion: v1
-//kind: Pod
-//spec:
-//  containers:
-//  - name: docker-container
-//    image: docker:19.03.8
-//    command:
-//    - cat
-//    tty: true
-//    volumeMounts:
-//    - mountPath: '/var/run'
-//      name: docker-sock
-//  volumes:
-//  - name: docker-sock
-//    hostPath: 
-//        path: /var/run
-//"""
-//    }
-//  }
-  
-    stages { 
-      
-      
-      stage('Build Docker Image') {
-        steps {
-          containers ('jenkins-slave'){
-            sh 'docker ps'
-          }
-        }
+agent any
+
+stages {
+  stage{
+    agent{
+      kubernetes {
+        cloud 'kubernetes'
       }
-     
     }
+
+
+    steps {
+      kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfig: 'kubeconfig' )
+    }
+
+  }
+
 }
 }
-}
+
+
 
 
 
