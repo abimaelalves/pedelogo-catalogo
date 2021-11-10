@@ -35,6 +35,7 @@ spec:
           steps { 
             sh "ls -l /var/run" 
             sh "docker ps" 
+            sh "kubectl get pod" 
           }
       } 
     }
