@@ -1,36 +1,33 @@
-pipeline { 
-  environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
-  agent {
+pipeline {
+    agent {
     kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        metadata:
-          labels: some-label-value
-        spec:
-          containers:
-          - name: kubectl-container
-            tty: true
-            image: gcr.io/cloud-builders/kubectl
-            command: ['cat']
-            resources:
-            requests:
-                memory: "64Mi"
-                cpu: "50m"
-            limits:
-                memory: "256Mi"
-            cpu: "100m"
-            imagePullSecrets:
-            - name: dockerhub
-            volumes:
-             - name: docker-sock-volume
-               hostPath:
-                 path: /var/run/docker.sock
-        '''
+      label 'test-pod'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: frontend-test
+    image: centos:7
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: '/opt/app/shared'
+      name: sharedvolume
+  - name: backend-test
+    image: centos:7
+    command:
+    - cat
+    tty: true   
+    volumeMounts:
+    - mountPath: '/opt/app/shared'
+      name: sharedvolume
+  volumes:
+  - name: sharedvolume
+    emptyDir: {}
+"""
     }
   }
   
