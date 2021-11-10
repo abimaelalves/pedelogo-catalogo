@@ -14,8 +14,8 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: container-kubectl
-    image: abimasantos/containerkubectl:v1
+  - name: docker-container
+    image: docker:19.03.8
     command:
     - cat
     tty: true
