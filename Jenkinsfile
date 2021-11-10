@@ -65,12 +65,7 @@ spec:
 
      stage('Deploy K8s') {
          steps {
-            kubernetesDeploy(credentialsType: 'KubeConfig',
-                                kubeConfig: [path: '/var/lib/jenkins/workspace/.kube/config'],
-                                configs: 'mypods-deployment.yml', 
-                                dockerCredentials: [
-                                [credentialsId: 'my_registry_creds_id'],
-                                )
+            kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig' )
      }
      }
     }
