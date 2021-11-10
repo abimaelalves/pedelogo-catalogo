@@ -67,6 +67,7 @@ spec:
             container('kubectl-container') {
                 sh("kubectl get pods --all-namespaces")
             }
+
         }
 
 //     stage('Deploy K8s') {
