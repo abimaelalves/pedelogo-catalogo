@@ -30,7 +30,7 @@ spec:
     }
   }
   
-//    stages { 
+    stages { 
 //        stage('Cleaning up') { 
 //          steps { 
 //            sh "apt update && apt install curl" 
@@ -85,11 +85,8 @@ spec:
             sh "kubectl apply -f k8s/mongodb/deployment.yaml" 
           }
         }
-         
-       
-    
     }
-
+         
 }
 
 //      stage('Deploy our image') { 
