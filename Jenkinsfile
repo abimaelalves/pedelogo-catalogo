@@ -82,7 +82,7 @@ spec:
             sh "curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl" 
             sh "chmod +x ./kubectl" 
             sh "mv kubectl /usr/local/bin"
-            sh "kubectl apply -f k8s/mongodb/deployment.yaml" 
+            sh "kubectl get pod" 
           }
         }
     }
