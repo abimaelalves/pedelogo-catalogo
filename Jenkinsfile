@@ -68,7 +68,7 @@ spec:
          steps {
            container('kubectl-container'){
                 sh """
-                kubectl get pod
+                kubectl --help
                 """
               }
             }
