@@ -14,8 +14,8 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: docker-container
-    image: docker:19.03.8
+  - name: kubectl-container
+    image: gcr.io/cloud-builders/kubectl
     command:
     - cat
     tty: true
