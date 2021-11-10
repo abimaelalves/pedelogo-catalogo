@@ -79,7 +79,7 @@ spec:
     }
 
 }
-##############################
+//##############################
 
 // pipeline abaixo funcionou, deixando como opção de uso
 //pipeline { 
