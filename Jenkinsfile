@@ -30,8 +30,53 @@ spec:
     }
   }
   
-    stages { 
-        stage('Cleaning up') { 
+//    stages { 
+//        stage('Cleaning up') { 
+//          steps { 
+//            sh "apt update && apt install curl" 
+//            sh "curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl" 
+//            sh "chmod +x ./kubectl" 
+//            sh "mv kubectl /usr/local/bin"
+//            sh "kubectl get pod" 
+//          }
+//      } 
+//    }
+//}
+
+      stage('Cloning our Git') { 
+          steps { 
+              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+          }
+      } 
+
+      stage('Building our image') { 
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+              }
+          } 
+      }
+      
+      stage('Deploy our image') { 
+          steps { 
+              script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                  dockerImage.push('latest') 
+                  dockerImage.push("${env.BUILD_ID}")
+                  }
+              } 
+          }
+      } 
+
+      stage('Cleaning up') { 
+          steps { 
+            sh "docker rmi $registry:${env.BUILD_ID}" 
+            sh "docker rmi $registry:latest" 
+          }
+      } 
+
+     stage('Deploy K8s') {
           steps { 
             sh "apt update && apt install curl" 
             sh "curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl" 
@@ -39,58 +84,13 @@ spec:
             sh "mv kubectl /usr/local/bin"
             sh "kubectl get pod" 
           }
-      } 
+        }
+         
+       
+    
     }
-}
 
-//      stage('Cloning our Git') { 
-//          steps { 
-//              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-//          }
-//      } 
-//
-//      stage('Building our image') { 
-//          steps { 
-//              script { 
-//                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
-//                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-//              }
-//          } 
-//      }
-//      
-//      stage('Deploy our image') { 
-//          steps { 
-//              script { 
-//                  docker.withRegistry( '', registryCredential ) { 
-//                  dockerImage.push('latest') 
-//                  dockerImage.push("${env.BUILD_ID}")
-//                  }
-//              } 
-//          }
-//      } 
-//
-//      stage('Cleaning up') { 
-//          steps { 
-//            sh "docker rmi $registry:${env.BUILD_ID}" 
-//            sh "docker rmi $registry:latest" 
-//          }
-//      } 
-//
-//     stage('Deploy K8s') {
-//         steps {
-//            container('kubectl-container'){
-//              withKubeConfig([credentialsId: 'kube', serverUrl: 'https://192.168.0.8:6443']) {
-//                sh """
-//                kubectl get pod
-//                """
-//              }
-//            }
-//         }
-//       }
-//    
-//    }
-//
-//}
+}
 
 //      stage('Deploy our image') { 
 //          steps { 
