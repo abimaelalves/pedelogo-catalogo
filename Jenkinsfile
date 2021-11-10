@@ -20,6 +20,19 @@ pipeline {
               }
           } 
       }
+
+      stage('Building our image'){
+        agent{
+          kubernetes {
+            cloud 'kubernetes'
+          }
+        }
+        steps{
+          kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfig: 'kubeconfig')
+        }
+      }
+
+
   }
 }
 
