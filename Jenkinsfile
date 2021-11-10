@@ -66,7 +66,7 @@ spec:
      stage('Deploy K8s') {
          steps {
             container('kubectl-container'){
-              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+              withKubeConfig([credentialsId: 'kube', serverUrl: K8SURL]) {
                 sh """
                 kubectl apply -f k8s/mongodb/deployment.yaml
                 kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
