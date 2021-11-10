@@ -67,7 +67,7 @@ spec:
     stage('Build stage') {
             steps {
                 container('kubectl-container') {
-                    sh 'kubectl'
+                    sh 'docker ps'
                 }
             }
         }
