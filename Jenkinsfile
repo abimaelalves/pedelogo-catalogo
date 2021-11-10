@@ -64,15 +64,17 @@ spec:
       } 
 
      stage('Deploy K8s') {
-       agent {
-         kubernetes {
-             cloud 'kubernetes'
+         steps {
+            container('kubectl-container'){
+              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+                sh """
+                kubectl apply -f k8s/mongodb/deployment.yaml
+                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
+                """
+              }
+            }
          }
        }
-         steps {
-             kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeConfig: kubeconfig)
-         }
-    }
     
     }
 
