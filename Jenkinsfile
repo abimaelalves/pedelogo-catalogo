@@ -7,28 +7,28 @@ pipeline {
 
     agent {
     kubernetes {
-      label 'master'
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker-container
-    image: docker:19.03.8
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-    - mountPath: '/var/run'
-      name: docker-sock
-  volumes:
-  - name: docker-sock
-    hostPath: 
-        path: /var/run
-"""
-    }
-  }
+//      label 'master'
+//      defaultContainer 'jnlp'
+//      yaml """
+//apiVersion: v1
+//kind: Pod
+//spec:
+//  containers:
+//  - name: docker-container
+//    image: docker:19.03.8
+//    command:
+//    - cat
+//    tty: true
+//    volumeMounts:
+//    - mountPath: '/var/run'
+//      name: docker-sock
+//  volumes:
+//  - name: docker-sock
+//    hostPath: 
+//        path: /var/run
+//"""
+//    }
+//  }
   
     stages { 
       
