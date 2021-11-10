@@ -45,6 +45,34 @@ spec:
           } 
       }
     }
+      stage('Deploy our image') { 
+          steps { 
+              script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                  dockerImage.push('latest') 
+                  dockerImage.push("${env.BUILD_ID}")
+                  }
+              } 
+          }
+      } 
+
+      stage('Cleaning up') { 
+          steps { 
+            sh "docker rmi $registry:${env.BUILD_ID}" 
+            sh "docker rmi $registry:latest" 
+          }
+      } 
+
+     stage('Deploy K8s') {
+       agent {
+         kubernetes {
+             cloud 'kubernetes'
+         }
+       }
+         steps {
+             kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeConfig: kubeconfig)
+         }
+    }
 }
 
 //      stage('Deploy our image') { 
