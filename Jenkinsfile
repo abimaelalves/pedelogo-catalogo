@@ -36,8 +36,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
        container('docker-container') {
-          withCredentials([usernamePassword(credentialsId: 'DockerCredentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
-            sh 'docker ps'
+          sh 'docker ps'
           }
        }
     }
