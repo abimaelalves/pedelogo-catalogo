@@ -64,15 +64,13 @@ spec:
 //          }
 //      } 
 
-     stage('Deploy K8s') {
-         steps {
-           container('kubectl-container'){
-                sh """
-                kubectl --help
-                """
-              }
+    stage('Build stage') {
+            steps {
+                container('kubectl-container') {
+                    sh 'kubectl'
+                }
             }
-     }
+        }
     }
 
 }
