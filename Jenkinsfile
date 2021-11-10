@@ -35,7 +35,7 @@ spec:
     stages { 
         stage('Cleaning up') { 
           steps { 
-            sh "ls -l /opt" 
+            sh "ls -l /var" 
             sh "echo teste" 
           }
       } 
