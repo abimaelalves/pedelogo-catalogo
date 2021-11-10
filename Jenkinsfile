@@ -66,11 +66,12 @@ spec:
      stage('Deploy K8s') {
          steps {
             container('kubectl-container'){
-             withKubeConfig([credentialsId: 'kubernetes-config']) {  
-                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"'  
-                sh 'chmod u+x ./kubectl'  
-                sh './kubectl apply -f k8s/mongodb/deployment.yaml'  
-                }  
+              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+                sh """
+                kubectl apply -f k8s/mongodb/deployment.yaml
+                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
+                """
+              }
             }
          }
        }
