@@ -1,6 +1,7 @@
 pipeline {
     agent {
     kubernetes {
+      inheritFrom 'centos-7'
       label "project-${UUID.randomUUID().toString()}"
       defaultContainer 'jnlp'
       yaml """
