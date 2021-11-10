@@ -29,8 +29,48 @@ spec:
               git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
       } 
-  }
-}      
+
+      stage('Building our image') { 
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+              }
+          } 
+      }
+
+      stage('Deploy our image') { 
+          steps { 
+              script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                  dockerImage.push('latest') 
+                  dockerImage.push("${env.BUILD_ID}")
+                  }
+              } 
+          }
+      } 
+
+      stage('Cleaning up') { 
+          steps { 
+            sh "docker rmi $registry:${env.BUILD_ID}" 
+            sh "docker rmi $registry:latest" 
+          }
+      } 
+
+     stage('Deploy K8s') {
+         steps {
+            container('kubectl-container'){
+              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+                sh """
+                kubectl apply -f k8s/mongodb/deployment.yaml
+                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
+                """
+              }
+            }
+         }
+       }
+    }
+}    
 
 
 //     stage('Deploy Kubernetes') {
