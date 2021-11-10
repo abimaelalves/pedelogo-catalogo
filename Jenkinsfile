@@ -20,10 +20,8 @@ spec:
     - cat
     tty: true
     volumeMounts:
-    - name: volume-jenkins                        # montando o volume no container
-       mountPath: /var/jenkins_home           
-    - name: docker-sock                           # montando o volume no container
-      mountPath: /var/run 
+    - mountPath: '/var/run'
+      name: docker-sock
   volumes:
   - name: docker-sock
     hostPath: 
@@ -35,7 +33,7 @@ spec:
     stages { 
         stage('Cleaning up') { 
           steps { 
-            sh "ls -l /var" 
+            sh "ls -l /opt" 
             sh "echo teste" 
           }
       } 
