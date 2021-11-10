@@ -15,7 +15,7 @@ kind: Pod
 spec:
   containers:
   - name: container-kubectl
-    image: abimasantos/container-kubectl:v1
+    image: abimasantos/containerkubectl:v1
     command:
     - cat
     tty: true
