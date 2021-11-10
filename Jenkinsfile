@@ -34,7 +34,7 @@ spec:
         stage('Cleaning up') { 
           steps { 
             sh "ls -l /var/run" 
-            sh "echo teste" 
+            sh "docker ps" 
           }
       } 
     }
