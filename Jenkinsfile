@@ -21,7 +21,7 @@ pipeline {
           } 
       }
 
-      stage('Building our image'){
+      stage('k8s'){
         agent{
           kubernetes {
             cloud 'kubernetes'
