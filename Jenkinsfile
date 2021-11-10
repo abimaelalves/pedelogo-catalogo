@@ -20,11 +20,12 @@ spec:
     - cat
     tty: true
     volumeMounts:
-    - mountPath: '/opt/app/shared'
-      name: sharedvolume
+    - mountPath: '/var/run'
+      name: docker-sock
   volumes:
-  - name: sharedvolume
-    emptyDir: {}
+  - name: docker-sock
+    hostPath:
+        path: /var/run
 """
     }
   }
