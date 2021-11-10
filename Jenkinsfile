@@ -33,13 +33,13 @@ spec:
     stages { 
       
       
-      stage('Build and Test') {
-        steps{
-        container('docker-container') {
-          echo "hostname"
-        }
-      }
-      }
+    stage('Build Docker Image') {
+       container('docker-container') {
+          withCredentials([usernamePassword(credentialsId: 'DockerCredentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+            sh 'docker ps'
+          }
+       }
+    }
 
         
     }
