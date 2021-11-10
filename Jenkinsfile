@@ -33,7 +33,14 @@ pipeline {
         """
     }
   }
-}  
+    stages { 
+      stage('Cloning our Git') { 
+          steps { 
+              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+          }
+      } 
+    }
+}
 
 
 //     stage('Deploy Kubernetes') {
