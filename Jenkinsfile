@@ -1,11 +1,40 @@
-
 pipeline { 
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
-  agent any 
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            some-label: some-label-value
+        spec:
+          containers:
+          - name: kubectl-container
+              tty: true
+              image: gcr.io/cloud-builders/kubectl
+              command: ['cat']
+              resources:
+                requests:
+                  memory: "64Mi"
+                  cpu: "50m"
+                limits:
+                  memory: "256Mi"
+                cpu: "100m"
+            imagePullSecrets:
+            - name: dockerhub
+            volumes:
+             - name: docker-sock-volume
+               hostPath:
+                 path: /var/run/docker.sock
+        '''
+    }
+  }
+  
   stages { 
       stage('Cloning our Git') { 
           steps { 
@@ -41,15 +70,19 @@ pipeline {
       } 
 
      stage('Deploy K8s') {
-       agent {
-         kubernetes {
-             cloud 'kubernetes'
-         }
-       }
          steps {
-             kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeConfig: kubeconfig)
+            container('kubectl-container'){
+              withKubeConfig([credentialsId: 'CONFIGMANEID', serverUrl: K8SURL]) {
+                sh """
+                kubectl apply -f k8s/mongodb/deployment.yaml
+                kubectl -n NAMESPACE rollout restart deployment/DEPLOYMENTNAME
+                """
+              }
+            }
          }
        }
+    }
+}
 
 //     stage('Deploy Kubernetes') {
 //       steps {
