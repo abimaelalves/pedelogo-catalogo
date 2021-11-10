@@ -33,13 +33,11 @@ spec:
     stages { 
       
       
-      stage('Build stage') {
-              steps {
-                  container('kubectl-container') {
-                      sh 'docker ps'
-                  }
-              }
-          }
+    stage('Build and Test') {
+      container('docker-container') {
+        echo "hostname"
+      }
+    }
 
 
         
