@@ -14,8 +14,8 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: kubectl-container
-    image: gcr.io/cloud-builders/kubectl
+  - name: container-kubectl
+    image: abimasantos/container-kubectl:v1
     command:
     - cat
     tty: true
@@ -33,7 +33,7 @@ spec:
     stages { 
         stage('Cleaning up') { 
           steps { 
-            container('kubectl-container'){
+            container('container-kubectl'){
                 git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
        } 
