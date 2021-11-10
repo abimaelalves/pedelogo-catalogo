@@ -7,15 +7,19 @@ pipeline {
 
 agent any
 
-stages {
-  stage{
-    agent{
-      kubernetes {
-        cloud 'kubernetes'
-      }
+  stages {
+    stage('Git clone'){
+        steps{
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+        }
     }
 
-
+    stage {
+      agent{
+        kubernetes {
+          cloud 'kubernetes'
+        }
+      }
     steps {
       kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfig: 'kubeconfig' )
     }
