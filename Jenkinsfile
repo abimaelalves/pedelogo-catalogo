@@ -63,15 +63,11 @@ spec:
           }
       } 
 
-        node {
-        stage('List pods') {
-            withKubeConfig([credentialsId: '<kube',
-                            serverUrl: 'https://192.168.0.8:6443'
-                            ]) {
-            sh 'kubectl get pods'
+        stage('Kubectl testing with k8s cluster') {
+            container('kubectl-container') {
+                sh("kubectl get pods --all-namespaces")
             }
         }
-        }      
 
 //     stage('Deploy K8s') {
 //         steps {
