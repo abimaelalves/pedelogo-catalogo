@@ -1,8 +1,9 @@
-pipeline {
-environment { 
-registry = "abimasantos/pedelogo-catalogo" 
-registryCredential = 'dockerhub' 
-}
+pipeline { 
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
 dockerImage = '' 
     agent {
     kubernetes {
