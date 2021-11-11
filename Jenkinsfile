@@ -54,7 +54,7 @@ podTemplate(yaml: '''
     stage('clone') {
       container('docker-container2') {
         stage('git clone2') {
-          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f /home/jenkins/agent/workspace/pedelogo-catalogo/src/PedeLogo.Catalogo.Api/Dockerfile .'
+          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f /home/jenkins/agent/workspace/api-produto/pedelogo-catalogo/src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
