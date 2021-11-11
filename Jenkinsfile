@@ -29,11 +29,19 @@ podTemplate(yaml: '''
   }
 
   node(POD_LABEL) {
-    stage('git clone') {
-      container('docker-container') {
-        git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+      stage('git clone') {
+        container('docker-container') {
+          git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+        }
       }
-    }
+
+      stage('git clone') {
+        container('docker-container') {
+          dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+        }
+      }
+
     }
   }
 
