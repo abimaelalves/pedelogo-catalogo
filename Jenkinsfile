@@ -17,10 +17,6 @@ podTemplate(yaml: '''
         volumeMounts:
         - mountPath: /var/run
           name: docker-sock
-      volumes:
-      - name: docker-sock                             
-        hostPath: 
-            path: /var/run
 
       - name: docker-container
         image: docker:19.03.8
