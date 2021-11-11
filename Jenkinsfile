@@ -16,7 +16,11 @@ podTemplate(yaml: '''
             cpu: "1000m"
         volumeMounts:
         - mountPath: /var/run
-          name: docker-sock          
+          name: docker-sock
+      volumes:
+      - name: docker-sock                             
+        hostPath: 
+            path: /var/run            
 ''') {
   
   node(POD_LABEL) {
@@ -26,6 +30,15 @@ podTemplate(yaml: '''
           steps {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
+        }
+      }
+    }
+
+
+    stage('Building our image') {
+      container('docker-container') {
+        stage('Building our image') {
+          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
