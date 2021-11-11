@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: docker:19.03.8
+        image: alpine/git:latest
         command: ['cat']
         tty: true
         resources:
@@ -23,7 +23,7 @@ podTemplate(yaml: '''
             path: /var/run
 ''') {
   node(POD_LABEL) {
-    stage('Get a Maven project') {
+    stage('git clone') {
       container('docker-container') {
         stage('git clone') {
           sh 'git --help'
