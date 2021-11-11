@@ -5,7 +5,6 @@ pipeline {
       dockerImage = '' 
   }
 
-agent any 
     agent {
     kubernetes {
       label 'master'
@@ -15,8 +14,8 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: kubectl-container
-    image: abimasantos/containerkubectl:v1
+  - name: jenkins-slave
+    image: jenkins/jnlp-slave:latest
     command:
     - cat
     tty: true
