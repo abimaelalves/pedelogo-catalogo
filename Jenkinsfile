@@ -36,7 +36,7 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-pipeline { 
+pipeline  
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
@@ -44,7 +44,7 @@ pipeline {
   }
 
   agent any
-  
+
   node(POD_LABEL) {
     stage('git clone') {
       container('docker-container') {
@@ -63,7 +63,6 @@ pipeline {
     }
 
   }
-}
 }
 
 
