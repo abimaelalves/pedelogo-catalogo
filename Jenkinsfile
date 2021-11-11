@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: docker:19.03.8
+        image: abimasantos/containerkubectl
         command:
         - cat
         tty: true
