@@ -29,7 +29,7 @@ podTemplate(yaml: '''
           sh 'docker ps'
           sh 'ls -l'
           sh 'pwd'
-          sh 'sf -h'
+          sh 'df -h'
         }
       }
     }
