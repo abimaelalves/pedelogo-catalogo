@@ -26,7 +26,7 @@ podTemplate(yaml: '''
     stage('Get a Maven project') {
       container('docker-container') {
         stage('git clone') {
-          sh 'docker ps'
+          sh 'git --help'
         }
       }
     }
