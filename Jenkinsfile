@@ -30,13 +30,16 @@ spec:
   }
   
     stages { 
-      stage('Cloning our Git') { 
-        steps {
-          container('kubectl-container')        
-            sh 'hostnamme && uname -a'
-          }
-      } 
-
+        stage('Get a Golang project') {
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git'
+            container('kubectl-container') {
+                stage('teste') {
+                    sh """
+                    echo teste && ls -l
+                    """
+                }
+            }
+        }
 
   }
 }
