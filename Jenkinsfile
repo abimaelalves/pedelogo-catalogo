@@ -3,7 +3,7 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: docker-container
+      - name: docker-container-git
         image: alpine/git:latest
         command: ['cat']
         tty: true
@@ -21,28 +21,45 @@ podTemplate(yaml: '''
       - name: docker-sock                             
         hostPath: 
             path: /var/run
+
+      - name: docker-container
+        image: docker:19.03.8
+        command: ['cat']
+        tty: true
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "1000m"
+        volumeMounts:
+        - mountPath: /var/run
+          name: docker-sock
+      volumes:
+      - name: docker-sock                             
+        hostPath: 
+            path: /var/run            
 ''') {
+  
   node(POD_LABEL) {
     stage('git clone') {
-      container('docker-container') {
+      container('docker-container-git') {
         stage('git clone') {
-          sh 'git --help'
+          sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
         }
       }
     }
 
-//    stage('Get a Golang project') {
-//      git url: 'https://github.com/hashicorp/terraform-provider-google.git', branch: 'main'
-//      container('golang') {
-//        stage('Build a Go project') {
-//          sh '''
-//            mkdir -p /go/src/github.com/hashicorp
-//            ln -s `pwd` /go/src/github.com/hashicorp/terraform
-//            cd /go/src/github.com/hashicorp/terraform && make
-//          '''
-//        }
-//      }
-//    }
+
+    stage('Building our image') {
+      container('docker-container') {
+        stage('Building our image') {
+          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+        }
+      }
+    }
+
 
   }
 }
