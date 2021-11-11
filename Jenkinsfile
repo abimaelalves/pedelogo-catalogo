@@ -53,7 +53,15 @@ podTemplate(yaml: '''
         }
       }
 
-    }
+      stage('docker build') {
+        container('docker-container') {
+          script {
+            docker.withRegistry('', registryCredential) {
+            sh 'docker push abimasantos/pedelogo-catalogo:v1'
+            }
+          }
+        }
+      }
     }
   }
 }
