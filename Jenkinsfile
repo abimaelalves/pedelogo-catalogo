@@ -3,10 +3,6 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      volumes:
-      - name: docker-sock                             
-        hostPath: 
-            path: /var/run      
       - name: docker-container
         image: abimasantos/containerkubectl:v1
         command: ['cat']
@@ -21,11 +17,16 @@ podTemplate(yaml: '''
         volumeMounts:
         - mountPath: /var/run
           name: docker-sock
+      volumes:
+      - name: docker-sock                             
+        hostPath: 
+            path: /var/run
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
       container('docker-container') {
         stage('git clone') {
+          sh 'docker ps'
           sh 'ls -l'
           sh 'pwd'
         }
