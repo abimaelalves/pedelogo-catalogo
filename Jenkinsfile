@@ -36,14 +36,20 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
+pipeline { 
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
+
+  agent any
+  
   node(POD_LABEL) {
-    stage('Get a Maven project') {
+    stage('git clone') {
       container('docker-container') {
         stage('git clone') {
-          sh 'docker ps'
-          sh 'ls -l'
-          sh 'pwd'
-          sh 'df -h'
+          sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git'
         }
       }
     }
@@ -51,15 +57,13 @@ podTemplate(yaml: '''
     stage('clone') {
       container('docker-container2') {
         stage('git clone2') {
-          sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git'
-          sh 'ls -l'
-          sh 'cd pedelogo-catalogo'
-          sh 'ls -l'
+          sh 'sh docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
 
   }
+}
 }
 
 
