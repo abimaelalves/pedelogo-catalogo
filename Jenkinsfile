@@ -33,7 +33,7 @@ spec:
       stage('Cloning our Git') { 
         steps {
           container('kubectl-container')        
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+            sh 'hostnamme && uname -a'
           }
       } 
 
