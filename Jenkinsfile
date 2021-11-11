@@ -1,9 +1,3 @@
-pipeline { 
-  environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -67,7 +61,7 @@ podTemplate(yaml: '''
 
   }
 }
-}
+
 
 
 
