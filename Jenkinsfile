@@ -42,10 +42,12 @@ podTemplate(yaml: '''
            
         stage('docker build') {
           container('docker-container') {
+            script {
             dockerapp.withRegistry('https://registry.hub.docker.com', 'dockerhub')
             dockerapp.push('latest')
             dockerapp.push("${env.BUILD_ID}")
             }
+          }
           }
         }
       }
