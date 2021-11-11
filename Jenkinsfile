@@ -36,7 +36,6 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-pipeline  
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
