@@ -21,18 +21,18 @@ podTemplate(yaml: '''
     }
 
     
-    stage('Docker Build') {
-      container('jenkins-slave') {
-        stage('Docker build') {
-          steps {
-            script {
-              dockerImage = docker.build registry + ":${env.BUILD_ID}",
-                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-            }
-          }
-        }
-      }
-    }
+//    stage('Docker Build') {
+//      container('jenkins-slave') {
+//        stage('Docker build') {
+//          steps {
+//            script {
+//              dockerImage = docker.build registry + ":${env.BUILD_ID}",
+//                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+//            }
+//          }
+//        }
+//      }
+//    }
 
 //    stage('Docker push') {
 //      container('jenkins-slave') {
