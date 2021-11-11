@@ -33,18 +33,25 @@ podTemplate(yaml: '''
           container('docker-container') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
         
+//        stage('docker build') {
+//          container('docker-container') {
+//            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
+//            }
+//          }
+        
         stage('docker build') {
           container('docker-container') {
-            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD}",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }
            
-        stage('docker build') {
-          container('docker-container') {
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-            docker.push('latest')
-            }
-          }
+//        stage('docker build') {
+//          container('docker-container') {
+//            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+//            docker.push('latest')
+//            }
+//          }
         }
       }
   }
