@@ -5,6 +5,7 @@ pipeline {
       dockerImage = '' 
   }
 
+agent any 
     agent {
     kubernetes {
       label 'master'
