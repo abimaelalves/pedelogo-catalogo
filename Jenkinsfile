@@ -15,8 +15,8 @@ podTemplate(yaml: '''
             memory: "500Mi"
             cpu: "1000m"
         volumeMounts:
-        - mountPath: /var/run/docker.sock
-          name: docker-sock-volume
+        - mountPath: /var/run
+          name: docker-sock
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
