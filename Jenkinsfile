@@ -4,33 +4,38 @@ pipeline {
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
-  agent any 
-  stages { 
+
+    agent {
+    kubernetes {
+      label 'master'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: kubectl-container
+    image: abimasantos/containerkubectl:v1
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: '/opt/app/shared'
+      name: sharedvolume
+  volumes:
+  - name: sharedvolume
+    emptyDir: {}
+"""
+    }
+  }
+  
+    stages { 
       stage('Cloning our Git') { 
+        container('kubectl-container')
           steps { 
               git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
       } 
-
-      stage('Building our image') { 
-          steps { 
-              script { 
-                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
-                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-              }
-          } 
-      }
-
-      stage('k8s'){
-        agent{
-          kubernetes {
-            cloud 'kubernetes'
-          }
-        }
-        steps{
-          kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-        }
-      }
 
 
   }
