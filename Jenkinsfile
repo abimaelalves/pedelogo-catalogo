@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: jenkins-slave
-        image: maven:3.8.1-jdk-8
+        image: jenkinsci/jnlp-slave
         command:
         - sleep
         args:
