@@ -21,6 +21,8 @@ podTemplate(yaml: '''
       container('maven') {
         stage('Build a Maven project') {
           sh 'git clone https://github.com/jenkinsci/kubernetes-plugin.git'
+          sh 'pwd'
+          sh 'ls -l'
         }
       }
     }
