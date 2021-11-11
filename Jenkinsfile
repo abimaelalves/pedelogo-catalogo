@@ -31,9 +31,9 @@ spec:
   
     stages { 
       stage('Cloning our Git') { 
-        container('kubectl-container')
-          steps { 
-              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+        steps {
+          container('kubectl-container')        
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
       } 
 
