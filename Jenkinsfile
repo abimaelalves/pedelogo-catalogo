@@ -16,26 +16,7 @@ podTemplate(yaml: '''
             cpu: "1000m"
         volumeMounts:
         - mountPath: /var/run
-          name: docker-sock
-
-      - name: docker-container
-        image: docker:19.03.8
-        command: ['cat']
-        tty: true
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "500Mi"
-            cpu: "1000m"
-        volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock
-      volumes:
-      - name: docker-sock                             
-        hostPath: 
-            path: /var/run            
+          name: docker-sock          
 ''') {
   
   node(POD_LABEL) {
@@ -45,15 +26,6 @@ podTemplate(yaml: '''
           steps {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
           }
-        }
-      }
-    }
-
-
-    stage('Building our image') {
-      container('docker-container') {
-        stage('Building our image') {
-          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
