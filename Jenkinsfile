@@ -11,14 +11,45 @@ podTemplate(yaml: '''
         - 99d
 ''') {
   node(POD_LABEL) {
-    stage('teste') {
-      git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+    stage('Git Clone') {
+      git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
       container('jenkins-slave') {
-        stage('teste2') {
+        stage('Clone') {
           sh 'echo teste'
         }
       }
     }
+
+    
+    stage('Docker Build') {
+      container('jenkins-slave') {
+        stage('Docker build') {
+          steps {
+            script {
+              dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+            }
+          }
+        }
+      }
+    }
+
+//    stage('Docker push') {
+//      container('jenkins-slave') {
+//        stage('teste2') {
+//          sh 'echo teste'
+//        }
+//      }
+//    }    
+//
+//    stage('Docker cleaner') {
+//      git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+//      container('jenkins-slave') {
+//        stage('teste2') {
+//          sh 'echo teste'
+//        }
+//      }
+//    }  
 
   }
 }
