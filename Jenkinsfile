@@ -37,8 +37,9 @@ podTemplate(yaml: '''
 
       stage('git clone') {
         container('docker-container') {
-          dockerImage = docker.build registry + ":${env.BUILD_ID}",
-                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+          steps {
+            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+          }
         }
       }
 
