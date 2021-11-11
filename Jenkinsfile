@@ -1,3 +1,9 @@
+pipeline { 
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -42,7 +48,9 @@ podTemplate(yaml: '''
     stage('git clone') {
       container('docker-container-git') {
         stage('git clone') {
-          sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+          steps {
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+          }
         }
       }
     }
@@ -58,6 +66,7 @@ podTemplate(yaml: '''
 
 
   }
+}
 }
 
 
