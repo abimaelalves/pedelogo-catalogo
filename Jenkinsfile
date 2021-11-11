@@ -3,8 +3,8 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: docker-container-git
-        image: alpine/git:latest
+      - name: docker-container
+        image: docker:19.03.8
         command: ['cat']
         tty: true
         resources:
@@ -18,25 +18,34 @@ podTemplate(yaml: '''
         - mountPath: /var/run
           name: docker-sock
       volumes:
-      - name: docker-sock                             
+        - name: docker-sock                             
         hostPath: 
-            path: /var/run            
+            path: /var/run
 ''') {
-  
   node(POD_LABEL) {
-    stage('git clone') {
-      container('docker-container-git') {
+    stage('Get a Maven project') {
+      container('docker-container') {
         stage('git clone') {
-          steps {
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-          }
+          sh 'docker ps'
         }
       }
     }
 
+//    stage('Get a Golang project') {
+//      git url: 'https://github.com/hashicorp/terraform-provider-google.git', branch: 'main'
+//      container('golang') {
+//        stage('Build a Go project') {
+//          sh '''
+//            mkdir -p /go/src/github.com/hashicorp
+//            ln -s `pwd` /go/src/github.com/hashicorp/terraform
+//            cd /go/src/github.com/hashicorp/terraform && make
+//          '''
+//        }
+//      }
+//    }
+
   }
 }
-
 
 
 
