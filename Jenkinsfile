@@ -31,9 +31,7 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
     stage('git clone') {
       container('docker-container') {
-          steps { 
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-        }
+        git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
       }
     }
     }
