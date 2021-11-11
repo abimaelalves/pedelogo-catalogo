@@ -16,50 +16,38 @@ podTemplate(yaml: '''
             cpu: "1000m"
         volumeMounts:
         - mountPath: /var/run
-          name: docker-sock  
-      - name: docker-container2
-        image: abimasantos/containerkubectl:v1
-        command: ['cat']
-        tty: true
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "500Mi"
-            cpu: "1000m"
-        volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock           
+          name: docker-sock      
       volumes:
       - name: docker-sock                             
         hostPath: 
             path: /var/run
 ''') {
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
 
   node(POD_LABEL) {
-      stage('git clone') {
-        container('docker-container') {
-          git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-      
-      stage('docker build') {
-        container('docker-container') {
-          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
-        }
-      }
-
-      stage('docker push') {
-        container('docker-container') {
-          script {
-            docker.withRegistry('', registryCredential) {
-            sh 'docker push abimasantos/pedelogo-catalogo:v1'
+        stage('git clone') {
+          container('docker-container') {
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+        
+        stage('docker build') {
+          container('docker-container') {
+            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
+            }
+          }
+           
+        stage('docker build') {
+          container('docker-container') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+            docker.push('latest')
             }
           }
         }
       }
-    }
   }
-}
 }
 
 
