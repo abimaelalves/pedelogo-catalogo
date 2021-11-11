@@ -17,6 +17,10 @@ podTemplate(yaml: '''
         volumeMounts:
         - mountPath: /var/run
           name: docker-sock
+      volumes:
+      - name: docker-sock                             
+        hostPath: 
+            path: /var/run
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
