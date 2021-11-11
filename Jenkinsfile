@@ -38,11 +38,6 @@ podTemplate(yaml: '''
 ''') {
 
   node(POD_LABEL) {
-      environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
       stage('git clone') {
         container('docker-container') {
           git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
