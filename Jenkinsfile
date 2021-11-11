@@ -15,7 +15,7 @@ podTemplate(yaml: '''
       git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
       container('jenkins-slave') {
         stage('Clone') {
-          sh 'echo teste'
+          sh 'ls -l'
         }
       }
     }
