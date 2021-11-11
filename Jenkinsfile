@@ -34,16 +34,6 @@ podTemplate(yaml: '''
       }
     }
 
-
-    stage('Building our image') {
-      container('docker-container') {
-        stage('Building our image') {
-          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-        }
-      }
-    }
-
-
   }
 }
 
