@@ -18,7 +18,7 @@ podTemplate(yaml: '''
         - mountPath: /var/run
           name: docker-sock
       volumes:
-        - name: docker-sock                             
+      - name: docker-sock                             
         hostPath: 
             path: /var/run
 ''') {
