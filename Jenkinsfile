@@ -47,14 +47,23 @@ podTemplate(yaml: '''
         container('docker-container') {
           git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
       
-      stage('git docker build') {
+      stage('docker build') {
         container('docker-container') {
           sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
         }
       }
 
-    }
-  }
+      stage('docker build') {
+        container('docker-container') {
+          steps {
+            script {
+              docker.withRegistry('', registryCredential) {
+                sh 'docker push abimasantos/pedelogo-catalogo:v1'
+
+            }
+          }
+        }
+      }
   }
 }
 
