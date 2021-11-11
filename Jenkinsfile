@@ -42,8 +42,6 @@ podTemplate(yaml: '''
       dockerImage = '' 
   }
 
-  agent any
-
   node(POD_LABEL) {
     stage('git clone') {
       container('docker-container') {
