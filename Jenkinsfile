@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: jenkins-slave
-        image: jenkinsci/jnlp-slave
+        image: abimasantos/containerkubectl:v1
         command:
         - sleep
         args:
