@@ -3,53 +3,41 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: jenkins-slave
-        image: abimasantos/containerkubectl:v1
+      - name: maven
+        image: maven:3.8.1-jdk-8
+        command:
+        - sleep
+        args:
+        - 99d
+      - name: golang
+        image: golang:1.16.5
         command:
         - sleep
         args:
         - 99d
 ''') {
   node(POD_LABEL) {
-    stage('Git Clone') {
-      git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
-      container('jenkins-slave') {
-        stage('Clone') {
-          sh 'ls -l'
+    stage('Get a Maven project') {
+      git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+      container('maven') {
+        stage('Build a Maven project') {
+          sh 'mvn -B -ntp clean install'
         }
       }
     }
 
-    
-//    stage('Docker Build') {
-//      container('jenkins-slave') {
-//        stage('Docker build') {
-//          steps {
-//            script {
-//              dockerImage = docker.build registry + ":${env.BUILD_ID}",
-//                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-//            }
-//          }
-//        }
-//      }
-//    }
-
-//    stage('Docker push') {
-//      container('jenkins-slave') {
-//        stage('teste2') {
-//          sh 'echo teste'
-//        }
-//      }
-//    }    
-//
-//    stage('Docker cleaner') {
-//      git 'https://github.com/jenkinsci/kubernetes-plugin.git'
-//      container('jenkins-slave') {
-//        stage('teste2') {
-//          sh 'echo teste'
-//        }
-//      }
-//    }  
+    stage('Get a Golang project') {
+      git url: 'https://github.com/hashicorp/terraform-provider-google.git', branch: 'main'
+      container('golang') {
+        stage('Build a Go project') {
+          sh '''
+            mkdir -p /go/src/github.com/hashicorp
+            ln -s `pwd` /go/src/github.com/hashicorp/terraform
+            cd /go/src/github.com/hashicorp/terraform && make
+          '''
+        }
+      }
+    }
 
   }
 }
