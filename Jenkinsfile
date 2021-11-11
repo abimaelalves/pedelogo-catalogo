@@ -3,8 +3,8 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: abimasantos/containerkubectl:v1
-        image: docker:19.03.8
+      - name: docker-container
+        image: abimasantos/containerkubectl:v1
         command: ['cat']
         tty: true
         resources:
