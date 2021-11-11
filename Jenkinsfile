@@ -48,9 +48,9 @@ podTemplate(yaml: '''
       }
     }
 
-    stage('Get a Maven project') {
+    stage('clone') {
       container('docker-container2') {
-        stage('git clone') {
+        stage('git clone2') {
           sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git'
           sh 'ls -l'
         }
