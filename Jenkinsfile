@@ -32,26 +32,21 @@ podTemplate(yaml: '''
         stage('git clone') {
           container('docker-container') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-        
-//        stage('docker build') {
-//          container('docker-container') {
-//            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
-//            }
-//          }
-        
+              
         stage('docker build') {
           container('docker-container') {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD}",
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }
            
-//        stage('docker build') {
-//          container('docker-container') {
-//            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-//            docker.push('latest')
-//            }
-//          }
+        stage('docker build') {
+          container('docker-container') {
+            dockerapp.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+            dockerapp.push('latest')
+            dockerapp.push("${env.BUILD_ID}")
+            }
+          }
         }
       }
   }
