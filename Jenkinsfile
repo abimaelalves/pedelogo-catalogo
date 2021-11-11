@@ -53,20 +53,10 @@ podTemplate(yaml: '''
         }
       }
 
-        stage('Push docker Image') {
-        steps {
-        script {
-            docker.withRegistry('', registryCredential) {
-                sh 'docker push abimasantos/pedelogo-catalogo:v1'
-            }
-        }
-        }
-        }
-        }
-      }
+    }
+    }
   }
 }
-        
 
 
 
