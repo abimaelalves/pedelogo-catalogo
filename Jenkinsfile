@@ -46,14 +46,10 @@ podTemplate(yaml: '''
       stage('git clone') {
         container('docker-container') {
           git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-        }
-      }
-
+      
       stage('git clone') {
-        container('docker-container2') {
-          steps {
-            sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-          }
+        container('docker-container') {
+          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'          
         }
       }
 
