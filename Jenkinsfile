@@ -31,6 +31,7 @@ spec:
   
     stages { 
         stage('Get a Golang project') {
+          steps {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git'
             container('kubectl-container') {
                 stage('teste') {
@@ -39,7 +40,8 @@ spec:
                     """
                 }
             }
-        }
+      }
+      }
 
   }
 }
