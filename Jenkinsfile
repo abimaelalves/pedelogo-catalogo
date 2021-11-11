@@ -53,7 +53,7 @@ podTemplate(yaml: '''
         }
       }
 
-      stage('docker build') {
+      stage('docker push') {
         container('docker-container') {
           script {
             docker.withRegistry('', registryCredential) {
