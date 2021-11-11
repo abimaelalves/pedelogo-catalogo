@@ -4,24 +4,25 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: abimasantos/containerkubectl
-        command:
-        - cat
+        image: docker:19.03.8
+        command: ['cat']
         tty: true
-      - name: golang
-        image: golang:1.16.5
-        command:
-        - sleep
-        args:
-        - 99d
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "1000m"
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-sock-volume
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
       container('docker-container') {
         stage('git clone') {
-          sh 'git clone https://github.com/jenkinsci/kubernetes-plugin.git'
-          sh 'pwd'
-          sh 'ls -l'
+          sh 'docker ps'
         }
       }
     }
