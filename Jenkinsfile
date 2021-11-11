@@ -54,7 +54,7 @@ podTemplate(yaml: '''
     stage('clone') {
       container('docker-container2') {
         stage('git clone2') {
-          sh 'sh docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+          sh 'sh docker build -t abimasantos/pedelogo-catalogo:v1 -f ./pedelogo-catalogo/src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
