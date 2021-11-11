@@ -53,6 +53,8 @@ podTemplate(yaml: '''
         stage('git clone2') {
           sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git'
           sh 'ls -l'
+          sh 'cd pedelogo-catalogo'
+          sh 'ls -l'
         }
       }
     }
