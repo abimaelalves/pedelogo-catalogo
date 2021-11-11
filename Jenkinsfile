@@ -3,12 +3,11 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: maven
-        image: maven:3.8.1-jdk-8
+      - name: docker-container
+        image: docker:19.03.8
         command:
-        - sleep
-        args:
-        - 99d
+        - cat
+        tty: true
       - name: golang
         image: golang:1.16.5
         command:
@@ -18,8 +17,8 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
-      container('maven') {
-        stage('Build a Maven project') {
+      container('docker-container') {
+        stage('git clone') {
           sh 'git clone https://github.com/jenkinsci/kubernetes-plugin.git'
           sh 'pwd'
           sh 'ls -l'
