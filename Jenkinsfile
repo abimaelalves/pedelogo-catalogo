@@ -40,14 +40,6 @@ podTemplate(yaml: '''
             }
           }
            
-        stage('docker push') {
-          container('docker-container') {
-            docker.withRegistry( '', registryCredential ) { 
-            dockerImage.push('latest') 
-            dockerImage.push("${env.BUILD_ID}")
-                  }
-          }
-          }
         }
       }
   }
