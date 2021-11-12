@@ -22,11 +22,6 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-  environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
 
   node(POD_LABEL) {
         stage('git clone') {
