@@ -24,7 +24,7 @@ podTemplate(yaml: '''
 ''') {
   environment { 
       registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
+      dockerhub_id = 'dockerhub' 
       dockerImage = '' 
   }
   node(POD_LABEL) {
@@ -41,7 +41,7 @@ podTemplate(yaml: '''
            
         stage('docker push') {
           container('docker-container') {
-            docker.withRegistry( '', registryCredential ) { 
+            docker.dockerhub_id( '', registryCredential ) { 
             dockerImage.push('latest') 
             dockerImage.push("${env.BUILD_ID}")
                   }
