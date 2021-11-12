@@ -22,11 +22,11 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-  environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      dockerhub_id = 'dockerhub' 
-      dockerImage = '' 
-  }
+  
+    def registry = "abimasantos/pedelogo-catalogo" 
+    def registryCredential = 'dockerhub' 
+    def dockerImage = '' 
+  
   node(POD_LABEL) {
         stage('git clone') {
           container('docker-container') {
@@ -41,7 +41,7 @@ podTemplate(yaml: '''
            
         stage('docker push') {
           container('docker-container') {
-            docker.dockerhub_id( '', registryCredential ) { 
+            docker.withRegistry( '', registryCredential ) { 
             dockerImage.push('latest') 
             dockerImage.push("${env.BUILD_ID}")
                   }
