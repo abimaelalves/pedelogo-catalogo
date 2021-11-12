@@ -40,7 +40,7 @@ podTemplate(yaml: '''
             }
           }
            
-        stage('docker build') {
+        stage('docker push') {
           container('docker-container') {
             docker.withRegistry( '', registryCredential ) { 
             dockerImage.push('latest') 
