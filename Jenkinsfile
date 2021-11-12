@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: aimvector/jenkins-slave
+        image: abimasantos/containerkubectl:v1
         command: ['cat']
         tty: true
         resources:
@@ -22,7 +22,6 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-
   node(POD_LABEL) {
         stage('git clone') {
           container('docker-container') {
@@ -35,6 +34,14 @@ podTemplate(yaml: '''
             }
           }
            
+//        stage('docker push') {
+//          container('docker-container') {
+//            docker.withRegistry( '', registryCredential ) { 
+//            dockerImage.push('latest') 
+//            dockerImage.push("${env.BUILD_ID}")
+//                  }
+//          }
+//          }
         }
       }
   }
