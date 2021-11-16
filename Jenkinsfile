@@ -28,19 +28,22 @@ spec:
     }
   }
   
-    stages { 
-    container('docker') {
-      stage('git clone') {    
+      stage('git clone') {
+          container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
            }
         }
-    container('docker') {
-      stage('docker build') {
-          container('docker') {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-            }
-          }
+        
+      stage('Building our image') { 
+          container('docker'){
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
+                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+              }
+          } 
+        }
+      }
 
       
       stage('Deploy our image') { 
@@ -65,7 +68,6 @@ spec:
       } 
       }
     
-    }
+    
 
-}
 }
