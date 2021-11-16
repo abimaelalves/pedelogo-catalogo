@@ -6,7 +6,7 @@ podTemplate(yaml: '''
         some-label: some-label-value
     spec:
       containers:
-      - name: busybox
+      - name: jnlp
         image: jenkinsci/jnlp-slave
         command:
         - sleep
@@ -14,9 +14,9 @@ podTemplate(yaml: '''
         - 99d
     ''') {
     node(POD_LABEL) {
-      container('busybox') {
+      container('jnlp') {
         echo POD_CONTAINER // displays 'busybox'
-        sh 'hostname'
+        sh 'git clone https://github.com/abimaelalves/pedelogo-catalogo.git'
       }
     }
 }
