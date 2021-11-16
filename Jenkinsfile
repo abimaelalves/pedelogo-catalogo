@@ -43,7 +43,7 @@ spec:
           }   
 
         stage('Docker Push'){
-          container('dockerkubectl'){
+          container('docker'){
             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
               sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
               sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
@@ -53,6 +53,8 @@ spec:
         }
 
         stage('Deploy k8s') {
+        container('dockerkubectl') {
+        
           agent {
             kubernetes {
               cloud 'kubernetes'
@@ -64,6 +66,7 @@ spec:
             }
             
         }
+    }
     }
   }
   
