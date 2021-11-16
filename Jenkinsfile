@@ -17,16 +17,26 @@ spec:
 """
   ) {
 
-    def image = "abimasantos/pedelogo-catalogo"
     node(POD_LABEL) {
-      stage('Git clone & Build Docker image') {
-        git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
-        container('docker') {
-          sh "docker build -t ${image}${env.BUILD_ID} ."
+        stage('git clone') {
+          container('docker') {
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+           }
         }
-      }
     }
-}
+  }
+
+// backup
+//    def image = "jenkins/jnlp-slave"
+//    node(POD_LABEL) {
+//      stage('Build Docker image') {
+//        git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+//        container('docker') {
+//          sh "docker build -t ${image} ."
+//        }
+//      }
+//    }
+
 
 
 //  node(POD_LABEL) {
