@@ -6,13 +6,17 @@ podTemplate(yaml: '''
       - name: docker-container
         image: abimasantos/containerkubectl:v2
         command:
+        - sleep
         args:
+        - 99d
 ''') {
-  node(POD_LABEL) {
     stage('test') {
+      git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
       container('docker-container') {
-        stage('test') {
-          sh 'ls -l'
+        stage('Build a Go project') {
+          sh '''
+            ls -l
+          '''
         }
       }
     }
