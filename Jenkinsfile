@@ -17,13 +17,13 @@ spec:
 """
   ) {
    
+    node(POD_LABEL) {
     environment { 
       registry = "abimasantos/pedelogo-catalogo" 
       registryCredential = 'dockerhub' 
       dockerImage = '' 
   }
 
-    node(POD_LABEL) {
         stage('git clone') {
           container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
