@@ -25,7 +25,7 @@ spec:
         }
         
         stage('docker build') {
-          container('docker-container') {
+          container('docker') {
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
