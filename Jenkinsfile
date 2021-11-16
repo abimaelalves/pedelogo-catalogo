@@ -12,7 +12,11 @@ spec:
       value: registry.hub.docker.com
     volumeMounts:
     - name: dockersock
-      mountPath: /var/run/docker.sock      
+      mountPath: /var/run/docker.sock   
+  - name: dockerkubectl
+    image: abimasantos/containerkubectl:v4
+    command: ['cat']
+    tty: true         
   volumes:
   - name: dockersock
     hostPath:
@@ -39,7 +43,7 @@ spec:
           }   
 
         stage('Docker Push'){
-          container('docker'){
+          container('dockerkubectl'){
             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
               sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
               sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
