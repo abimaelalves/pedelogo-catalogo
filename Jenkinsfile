@@ -12,7 +12,7 @@ spec:
       value: registry.hub.docker.com
     volumeMounts:
     - name: dockersock
-      mountPath: /var/run/docker.sock   
+      mountPath: /var/run/docker.sock      
   volumes:
   - name: dockersock
     hostPath:
@@ -47,20 +47,6 @@ spec:
             }
           }
         }
-
-     stage('Deploy K8S') {
-       steps {
-         echo "Deploy k8s"
-           container('dockerkubectl') {
-             withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
-               sh """
-               kubectl apply -f k8s/mongodb/deployment.yaml
-               """  
-              }
-            }
-          }
-
-     }
     }
   }
   
