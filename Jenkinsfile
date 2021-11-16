@@ -14,7 +14,7 @@ podTemplate(yaml: '''
     stage('test') {
       container('docker-container') {
         stage('test') {
-          bash 'ls -l'
+          sh 'ls -l'
         }
       }
     }
