@@ -59,6 +59,7 @@ spec:
     
     }
   }
+}
 
 // backup
 //    def image = "jenkins/jnlp-slave"
