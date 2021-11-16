@@ -26,6 +26,7 @@ spec:
   {
     node(POD_LABEL) {
       checkout scm
+      agent any
     
         stage('Git Clone') {
           container('docker') {
@@ -53,8 +54,7 @@ spec:
         }
 
         stage('Deploy k8s') {
-        container('dockerkubectl') {
-        
+              
           agent {
             kubernetes {
               cloud 'kubernetes'
@@ -65,8 +65,8 @@ spec:
               kubernetesDeploy(config: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kube')
             }
             
+        
         }
-    }
     }
   }
   
