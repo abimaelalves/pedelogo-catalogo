@@ -29,12 +29,12 @@ spec:
   }
   
     stages { 
-      stage('git clone') {
-          container('docker') {
+    container('docker') {
+      stage('git clone') {    
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
            }
         }
-
+    container('docker') {
       stage('docker build') {
           container('docker') {
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
