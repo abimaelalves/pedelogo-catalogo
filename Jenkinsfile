@@ -24,6 +24,7 @@ spec:
           container('docker') {
             //sh "docker build -t ${image} ."
             sh "ls -l"
+            sh "docker ps"
           }
         }
       }
