@@ -11,17 +11,8 @@ spec:
     - name: REGISTRY
       value: registry.hub.docker.com
     volumeMounts:
-  - name: kubectl-container
-    tty: true
-    image: gcr.io/cloud-builders/kubectl
-    command: ['cat']
-    resources:
-      requests:
-        memory: "64Mi"
-        cpu: "250m"
-      limits:
-        memory: "500Mi"
-        cpu: "1000m"
+    - name: dockersock
+      mountPath: /var/run/docker.sock   
   volumes:
   - name: dockersock
     hostPath:
@@ -60,16 +51,20 @@ spec:
      stage('Deploy K8S') {
        steps {
          echo "Deploy k8s"
-           container('kubectl-container') {
+           container('dockerkubectl') {
              withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
                sh """
-               kubectl apply -f k8s/mongodb/deployment.yaml
+               kubectl -n qa-plannexo apply -f infra/qa/k8s/deployment-plannexo-suppliers-api.yaml
+               kubectl -n qa-plannexo apply -f infra/qa/k8s/configmap-plannexo-suppliers-api.yaml
+               kubectl -n qa-plannexo apply -f infra/qa/k8s/deployment-plannexo-suppliers-api-nginx.yaml
+               kubectl -n qa-plannexo patch deployment/plannexo-suppliers-api -p "{\\"spec\\":{\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"date\\":\\"`date +'%s'`\\"}}}}}"
+               kubectl -n qa-plannexo rollout status deployment/plannexo-suppliers-api
                """  
               }
             }
           }
 
-      }
+     }
     }
   }
   
