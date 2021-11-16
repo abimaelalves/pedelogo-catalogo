@@ -1,45 +1,33 @@
-podTemplate(yaml: '''
-    apiVersion: v1
-    kind: Pod
-    spec:
-      containers:
-      - name: docker-container
-        image: abimasantos/containerkubectl:v4
-        command: ['cat']
-        tty: true
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "500Mi"
-            cpu: "1000m"
-        volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock      
-      volumes:
-      - name: docker-sock                             
-        hostPath: 
-            path: /var/run
-''') {
-node(POD_LABEL) {
-    
-     stage('test pipeline') {
-        sh(script: """
-          echo "hello"
-          git clone https://github.com/abimaelalves/pedelogo-catalogo.git
-          ls -l
-          hostname
-          docker ps
-        """)
-    }
+podTemplate(yaml: """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: docker
+    image: docker:1.11
+    command: ['cat']
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+"""
+  ) {
 
-      stage('Build docker image') {
-            steps {
-              sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-            }
-          }
+  def image = "jenkins/jnlp-slave"
+  node(POD_LABEL) {
+    stage('Build Docker image') {
+      git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+      container('docker') {
+        sh "docker build -t ${image} ."
+      }
+    }
+  }
 }
+
 
 //  node(POD_LABEL) {
 //        stage('git clone') {
