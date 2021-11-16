@@ -33,6 +33,8 @@ spec:
           container('docker') {
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:latest",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }   
 
