@@ -7,7 +7,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: busybox
-        image: busybox
+        image: ubuntu
         command:
         - sleep
         args:
