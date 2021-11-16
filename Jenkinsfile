@@ -54,11 +54,7 @@ spec:
            container('dockerkubectl') {
              withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
                sh """
-               kubectl -n qa-plannexo apply -f infra/qa/k8s/deployment-plannexo-suppliers-api.yaml
-               kubectl -n qa-plannexo apply -f infra/qa/k8s/configmap-plannexo-suppliers-api.yaml
-               kubectl -n qa-plannexo apply -f infra/qa/k8s/deployment-plannexo-suppliers-api-nginx.yaml
-               kubectl -n qa-plannexo patch deployment/plannexo-suppliers-api -p "{\\"spec\\":{\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"date\\":\\"`date +'%s'`\\"}}}}}"
-               kubectl -n qa-plannexo rollout status deployment/plannexo-suppliers-api
+               kubectl apply -f k8s/mongodb/deployment.yaml
                """  
               }
             }
