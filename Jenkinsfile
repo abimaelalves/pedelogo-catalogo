@@ -14,7 +14,7 @@ spec:
     - name: dockersock
       mountPath: /var/run/docker.sock   
   - name: dockerkubectl
-    image: abimasantos/containerkubectl:v4
+    image: gcr.io/cloud-builders/kubectl
     command: ['cat']
     tty: true         
   volumes:
@@ -52,16 +52,19 @@ spec:
           }
         }
 
-        stage('Deploy k8s') {
-          container('docker')
-          sh 'kubectl'
-            
-//            steps {
-//              kubernetesDeploy(config: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kube')
-//            }
-            
-        
-        }
+     stage('Deploy K8S') {
+       steps {
+         echo "Deploy k8s"
+           container('dockerkubectl') {
+             withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
+               sh """
+               kubectl apply -f k8s/mongodb/deployment.yaml
+               """  
+              }
+            }
+          }
+
+      }
     }
   }
   
