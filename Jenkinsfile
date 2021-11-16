@@ -42,11 +42,13 @@ spec:
         
         
       stage('Push docker Image') {
+        container('docker'){
       steps {
       script {
           docker.withRegistry('', registryCredential) {
               sh 'docker push abimasantos/pedelogo-catalogo:v1'
           }
+      }
       }
       }
       }
