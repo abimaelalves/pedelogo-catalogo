@@ -15,10 +15,11 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
+agent any
   ) {
    
     node(POD_LABEL) {
-      agent any
+      
 
         stage('git clone') {
           container('docker') {
