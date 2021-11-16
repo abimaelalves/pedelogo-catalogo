@@ -7,7 +7,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: jnlp
-        image: jenkinsci/jnlp-slave
+        image: abimasantos/containerkubectl:v2
         command:
         - sleep
         args:
