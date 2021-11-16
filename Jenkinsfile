@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: abimasantos/containerkubectl:v2
+        image: jenkinsci/jnlp-slave
         command: ['cat']
         tty: true
         resources:
