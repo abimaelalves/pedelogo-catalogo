@@ -34,12 +34,11 @@ node(POD_LABEL) {
         """)
     }
 
-     stage('docker build') {
-        container('docker-container') {
-          dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-          '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+      stage('Build docker image') {
+            steps {
+              sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+            }
           }
-        }
 }
 
 //  node(POD_LABEL) {
