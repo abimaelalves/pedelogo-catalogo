@@ -7,13 +7,9 @@ spec:
     image: docker:1.11
     command: ['cat']
     tty: true
-    volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock
-  - name: dockers
-    image: docker:1.11
-    command: ['cat']
-    tty: true
+    env:
+    - name: REGISTRY
+      value: registry.hub.docker.com
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock      
@@ -38,7 +34,17 @@ spec:
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
-          }     
+          }   
+
+        stage('Building image'){
+          container('docker'){
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+              sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
+              sh 'docker push bionexo/bionfe:feat-${BRANCH_NAME}'
+            }
+          }
+        }
+
       
     }
   }
