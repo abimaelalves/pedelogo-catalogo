@@ -32,8 +32,7 @@ spec:
 
    
     node(POD_LABEL) {
-      
-      stages{
+    
         stage('git clone') {
           container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
@@ -49,7 +48,15 @@ spec:
         
         
         stage('Docker push')
-    } 
+              environment {
+               registryCredential = 'dockerhub'
+           }
+        container('docker'){
+          docker.withRegistry( '', registryCredential ) {
+          dockerapp.push()
+          dockerapp.push('latest')
+        }
+    
     }
   }
 
