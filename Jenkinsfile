@@ -57,19 +57,19 @@ spec:
           }
         }
 
-     stage('Deploy K8S') {
-       steps {
-         echo "Deploy k8s"
-           container('kubectl-container') {
-             withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
-               sh """
-               kubectl apply -f k8s/mongodb/deployment.yaml
-               """  
-              }
-            }
-          }
-
-      }
+//     stage('Deploy K8S') {
+//       steps {
+//         echo "Deploy k8s"
+//           container('kubectl-container') {
+//             withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
+//               sh """
+//               kubectl apply -f k8s/mongodb/deployment.yaml
+//               """  
+//              }
+//            }
+//          }
+//
+//      }
     }
   }
   
