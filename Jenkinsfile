@@ -6,8 +6,8 @@ podTemplate(yaml: '''
         some-label: some-label-value
     spec:
       containers:
-      - name: abimasantos/containerkubectl:v2
-        image: ubuntu
+      - name: busybox
+        image: abimasantos/containerkubectl:v2
         command:
         - sleep
         args:
