@@ -33,9 +33,9 @@ spec:
           }     
         
         stage('docker build') {
+          withDockerRegistry([ credentialsId: "dockerhub", url: "https://registry.hub.docker.com/" ]){ 
           container('docker') {
-            withDockerRegistry([ credentialsId: "dockerhub", url: "https://registry.hub.docker.com/" ]){            
-                      dockerImage.push()
+              dockerImage.push()
             //sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
           }       
