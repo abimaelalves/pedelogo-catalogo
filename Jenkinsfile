@@ -34,7 +34,7 @@ spec:
 
         stage('docker build') {
           container('docker') {
-            sh "docker push abimasantos/pedelogo-catalogo${env.BUILD_ID}"
+            sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
           }       
         
