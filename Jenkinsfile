@@ -17,17 +17,24 @@ spec:
 """
   ) {
 
-      def image = "jenkins/jnlp-slave"
       node(POD_LABEL) {
         stage('Build Docker image') {
-          git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+          git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
           container('docker') {
-            //sh "docker build -t ${image} ."
+            sh "cd pedelogo-catalogo"
             sh "ls -l"
-            sh "docker ps"
           }
         }
       }
+      
+      def image = "jenkins/jnlp-slave"
+      node(POD_LABEL) {
+        stage('Build Docker image') {
+          container('docker') {
+            sh "docker build -t ${image} ."
+          }
+        }
+      }      
 }
 
 
