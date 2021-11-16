@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: gcr.io/cloud-builders/kubectl
+        image: docker:19.03.8
         command: ['cat']
         tty: true
         resources:
