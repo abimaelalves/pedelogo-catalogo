@@ -1,4 +1,4 @@
-podTemplate(yaml: """
+podTemplate(label: 'master', yaml: """
 apiVersion: v1
 kind: Pod
 spec:
