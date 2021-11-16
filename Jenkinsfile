@@ -1,27 +1,25 @@
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
+    metadata:
+      labels: 
+        some-label: some-label-value
     spec:
       containers:
-      - name: docker-container
-        image: abimasantos/containerkubectl:v2
+      - name: busybox
+        image: busybox
         command:
         - sleep
         args:
         - 99d
-''') {
-    stage('test') {
-      git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-      container('docker-container') {
-        stage('Build a Go project') {
-          sh '''
-            ls -l
-          '''
-        }
+    ''') {
+    node(POD_LABEL) {
+      container('busybox') {
+        echo POD_CONTAINER // displays 'busybox'
+        sh 'hostname'
       }
     }
-
-  }
+}
 
 //podTemplate(yaml: '''
 //    apiVersion: v1
