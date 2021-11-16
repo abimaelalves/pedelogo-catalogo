@@ -6,9 +6,7 @@ podTemplate(yaml: '''
       - name: docker-container
         image: abimasantos/containerkubectl:v2
         command:
-        - sleep
         args:
-        - 99d
 ''') {
   node(POD_LABEL) {
     stage('test') {
