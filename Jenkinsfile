@@ -16,6 +16,12 @@ spec:
       path: /var/run/docker.sock
 """
   ) {
+   
+    environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
 
     node(POD_LABEL) {
         stage('git clone') {
@@ -29,6 +35,15 @@ spec:
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
+          }
+
+        stage('docker push') {
+          container('docker-container') {
+            docker.withRegistry( '', registryCredential ) { 
+            dockerImage.push('latest') 
+            dockerImage.push("${env.BUILD_ID}")
+                  }
+          }
           }
         
     }
