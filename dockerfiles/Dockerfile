@@ -1,4 +1,5 @@
-FROM openjdk:8-jdk
+#FROM openjdk:8-jdk
+FROM ubuntu
 
 RUN apt-get update -y && apt-get install -y curl sudo git
 
@@ -45,4 +46,4 @@ VOLUME /home/${user}/.jenkins
 VOLUME ${AGENT_WORKDIR}
 WORKDIR /home/${user}
 
-ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
+#ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
