@@ -39,28 +39,32 @@ spec:
            }
         }
         
-        stage('docker build') {
-          container('docker') {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-            }
-          }     
+//        stage('docker build') {
+//          container('docker') {
+//            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+//            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+//            }
+//          }     
         
         
-        stage('Docker push')
-              environment {
-               registryCredential = 'dockerhub'
-           }
-        container('docker'){
-          script {
-          docker.withRegistry( '', registryCredential ) {
-          dockerapp.push()
-          dockerapp.push('latest')
-        }
-          }
+        stage('Publish') {
+          container ('docker') {
+                  environment {
+                      registryCredential = 'dockerhub'
+                  }
+                  steps{
+                      script {
+                          def appimage = docker.build registry + ":$BUILD_NUMBER"
+                          docker.withRegistry( '', registryCredential ) {
+                              appimage.push()
+                              appimage.push('latest')
+                          }
+                      }
+                  }
+              }
+              }
     }
   }
-}
 
 // backup
 //    def image = "jenkins/jnlp-slave"
