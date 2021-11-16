@@ -10,6 +10,13 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+  - name: docker2
+    image: docker:1.11
+    command: ['cat']
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock      
   volumes:
   - name: dockersock
     hostPath:
@@ -27,7 +34,7 @@ spec:
     }
 
       stage('docker build') {
-        container('docker') {
+        container('docker2') {
           dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
           '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
           }
