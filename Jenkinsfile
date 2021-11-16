@@ -1,3 +1,8 @@
+    environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
+  }
 podTemplate(yaml: """
 apiVersion: v1
 kind: Pod
@@ -18,11 +23,6 @@ spec:
   ) {
    
     node(POD_LABEL) {
-    environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
 
         stage('git clone') {
           container('docker') {
