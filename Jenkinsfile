@@ -4,13 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: maven:3.8.1-jdk-8
-        command:
-        - sleep
-        args:
-        - 99d
-      - name: golang
-        image: golang:1.16.5
+        image: abimasantos/containerkubectl:v2
         command:
         - sleep
         args:
