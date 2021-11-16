@@ -12,7 +12,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('test') {
-      git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+      git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
       container('docker-container') {
         stage('test') {
           bash 'ls -l'
