@@ -1,5 +1,5 @@
 #FROM openjdk:8-jdk
-FROM openjdk:11
+FROM ubuntu
 
 RUN apt-get update -y && apt-get install -y curl sudo git
 
