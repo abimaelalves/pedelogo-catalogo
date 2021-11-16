@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: jenkinsci/jnlp-slave
+        image: docker
         command: ['cat']
         tty: true
         resources:
