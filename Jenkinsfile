@@ -26,7 +26,6 @@ spec:
   {
     node(POD_LABEL) {
       checkout scm
-      agent any
     
         stage('Git Clone') {
           container('docker') {
@@ -53,8 +52,7 @@ spec:
           }
         }
 
-        stage('Deploy k8s') {
-              
+        stage('Deploy k8s') {              
           agent {
             kubernetes {
               cloud 'kubernetes'
