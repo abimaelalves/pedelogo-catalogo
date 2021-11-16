@@ -9,9 +9,9 @@ podTemplate(yaml: '''
       - name: busybox
         image: jenkinsci/jnlp-slave
         command:
-        - /bin/bash -c
+        - sleep
         args:
-        - cat
+        - 99d
     ''') {
     node(POD_LABEL) {
       container('busybox') {
