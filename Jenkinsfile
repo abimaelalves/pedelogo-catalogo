@@ -31,10 +31,10 @@ podTemplate(yaml: '''
     stage('test pipeline') {
         sh(script: """
             echo "hello"
-           git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
-           cd ./docker-development-youtube-series/golang
+           git clone https://github.com/abimaelalves/pedelogo-catalogo.git
            
-           docker build . -t test
+           
+           ls -l
         """)
     }
   }
