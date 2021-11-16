@@ -52,16 +52,13 @@ spec:
           }
         }
 
-        stage('Deploy k8s') {              
-          agent {
-            kubernetes {
-              cloud 'kubernetes'
-            }
-          }
+        stage('Deploy k8s') {
+          container('docker')
+          sh 'kubectl'
             
-            steps {
-              kubernetesDeploy(config: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kube')
-            }
+//            steps {
+//              kubernetesDeploy(config: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kube')
+//            }
             
         
         }
