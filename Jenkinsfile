@@ -15,8 +15,10 @@ podTemplate(yaml: '''
     ''') {
     node(POD_LABEL) {
       container('docker-container') {
-        echo POD_CONTAINER // displays 'busybox'
-        sh 'hostname'
+        echo POD_CONTAINER 
+        sh 'docker ps'
+        sh 'echo'
+        sh 'git'
       }
     }
 }
