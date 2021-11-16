@@ -16,12 +16,13 @@ spec:
       path: /var/run/docker.sock
 """
   ) 
+  {
+
   environment {
       registry = "abimaesantos/pedelogo-catalogo"
       registryCredential = 'dockerhub'
    }
-  
-  {
+
    
     node(POD_LABEL) {
       
@@ -40,15 +41,15 @@ spec:
           }     
         
         
-        stage('docker push') {
-          container('docker-container') {
-            docker.withRegistry( '', registryCredential ) { 
-            dockerImage.push('latest') 
-            dockerImage.push("${env.BUILD_ID}")
-                  }
+      stage('Push docker Image') {
+      steps {
+      script {
+          docker.withRegistry('', registryCredential) {
+              sh 'docker push abimasantos/pedelogo-catalogo:v1'
           }
-          }
-        }
+      }
+      }
+      }
     } 
   }
 
