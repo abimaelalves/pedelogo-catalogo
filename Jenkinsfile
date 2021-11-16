@@ -10,6 +10,13 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+  - name: dockers
+    image: docker:1.11
+    command: ['cat']
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock      
   volumes:
   - name: dockersock
     hostPath:
@@ -24,7 +31,7 @@ spec:
    }
 
    
-//    node(POD_LABEL) {
+    node(POD_LABEL) {
       
 
         stage('git clone') {
@@ -42,7 +49,7 @@ spec:
         
         
       stage('Push docker Image') {
-        container('docker'){
+        container('dockers'){
       steps {
       script {
           docker.withRegistry('', registryCredential) {
@@ -52,7 +59,7 @@ spec:
       }
       }
       }
-    //} 
+    } 
   }
 
 // backup
