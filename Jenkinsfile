@@ -18,6 +18,7 @@ spec:
   ) {
    
     node(POD_LABEL) {
+      agent any
 
         stage('git clone') {
           container('docker') {
@@ -31,6 +32,7 @@ spec:
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }     
+        
         
         stage {
           container('docker') {
