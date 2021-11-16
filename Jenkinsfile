@@ -30,18 +30,13 @@ spec:
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
-          }
+          }     
 
-     stage('Push image SANDBOX') {
-       steps {
-         echo "Pushing Docker image"
-           container('docker') {
-             withCredentials([usernamePassword(credentialsId: 'DockerCredentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
-               sh 'docker push abimasantos/pedelogo-catalogo'
-             }
-           }
-       }
-     }          
+        stage('docker build') {
+          container('docker') {
+            sh "docker push abimasantos/pedelogo-catalogo${env.BUILD_ID}"
+            }
+          }       
         
     }
     
