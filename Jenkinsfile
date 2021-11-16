@@ -27,8 +27,9 @@ node(POD_LABEL) {
      stage('test pipeline') {
         sh(script: """
           echo "hello"
-           git clone https://github.com/abimaelalves/pedelogo-catalogo.git
-           ls -l
+          git clone https://github.com/abimaelalves/pedelogo-catalogo.git
+          ls -l
+          hostname
         """)
     }
 }
