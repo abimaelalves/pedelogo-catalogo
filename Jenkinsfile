@@ -32,6 +32,13 @@ node(POD_LABEL) {
           hostname
         """)
     }
+
+     stage('docker build') {
+        container('docker-container') {
+          dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+          '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+          }
+        }
 }
 
 //  node(POD_LABEL) {
