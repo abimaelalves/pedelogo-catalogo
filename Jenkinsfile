@@ -23,6 +23,7 @@ spec:
    
     node(POD_LABEL) {
       checkout scm
+      agent any
 
         stage('git clone') {
           container('docker') {
@@ -36,7 +37,7 @@ spec:
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }     
-
+        
         stage('docker build') {
           container('docker') {
             withDockerRegistry([ credentialsId: "dockerhub", url: "https://registry.hub.docker.com/" ]){            
