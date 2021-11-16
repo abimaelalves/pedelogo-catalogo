@@ -1,27 +1,34 @@
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
-    metadata:
-      labels: 
-        some-label: some-label-value
     spec:
       containers:
       - name: docker-container
-        image: abimasantos/containerkubectl:v2
+        image: maven:3.8.1-jdk-8
         command:
         - sleep
         args:
         - 99d
-    ''') {
-    node(POD_LABEL) {
+      - name: golang
+        image: golang:1.16.5
+        command:
+        - sleep
+        args:
+        - 99d
+''') {
+  node(POD_LABEL) {
+    stage('test') {
+      git 'https://github.com/abimaelalves/pedelogo-catalogo.git'
       container('docker-container') {
-        echo POD_CONTAINER 
-        sh 'docker ps'
-        sh 'echo'
-        sh 'git'
+        stage('test') {
+          sh 'ls -l'
+        }
       }
     }
+
+  }
 }
+
 //podTemplate(yaml: '''
 //    apiVersion: v1
 //    kind: Pod
