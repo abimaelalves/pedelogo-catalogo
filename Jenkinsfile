@@ -11,12 +11,17 @@ spec:
     - name: REGISTRY
       value: registry.hub.docker.com
     volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock   
-  - name: dockerkubectl
+  - name: kubectl-container
+    tty: true
     image: gcr.io/cloud-builders/kubectl
     command: ['cat']
-    tty: true         
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "500Mi"
+        cpu: "1000m"
   volumes:
   - name: dockersock
     hostPath:
@@ -55,7 +60,7 @@ spec:
      stage('Deploy K8S') {
        steps {
          echo "Deploy k8s"
-           container('dockerkubectl') {
+           container('kubectl-container') {
              withKubeConfig([credentialsId: 'kube', serverUrl: 'http://172.18.0.2:32000']) {
                sh """
                kubectl apply -f k8s/mongodb/deployment.yaml
