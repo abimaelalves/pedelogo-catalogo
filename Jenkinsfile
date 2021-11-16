@@ -29,23 +29,18 @@ spec:
   }
   
     stages { 
-      stage('Cloning our Git') { 
-          container('docker'){
-          steps { 
-              git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-          }
-        } 
-    }
-      stage('Building our image') { 
-          container('docker'){
-          steps { 
-              script { 
-                  dockerImage = docker.build registry + ":${env.BUILD_ID}",
-                  '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-              }
-          } 
+      stage('git clone') {
+          container('docker') {
+            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+           }
         }
-      }
+
+      stage('docker build') {
+          container('docker') {
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+            }
+          }
 
       
       stage('Deploy our image') { 
