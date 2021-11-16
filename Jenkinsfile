@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: abimasantos/containerkubectl:v3
+        image: abimasantos/containerkubectl:v1
         command: ['cat']
         tty: true
         resources:
