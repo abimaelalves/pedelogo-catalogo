@@ -6,15 +6,15 @@ podTemplate(yaml: '''
         some-label: some-label-value
     spec:
       containers:
-      - name: busybox
-        image: busybox
+      - name: docker-container
+        image: abimasantos/containerkubectl:v2
         command:
         - sleep
         args:
         - 99d
     ''') {
     node(POD_LABEL) {
-      container('busybox') {
+      container('docker-container') {
         echo POD_CONTAINER // displays 'busybox'
         sh 'hostname'
       }
