@@ -18,6 +18,7 @@ spec:
   ) {
    
     node(POD_LABEL) {
+      checkout scm
 
         stage('git clone') {
           container('docker') {
