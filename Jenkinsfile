@@ -39,7 +39,7 @@ spec:
 
         stage('docker build') {
           container('docker') {
-            withDockerRegistry([ credentialsId: "dockerhub", url: "https://hub.docker.com/" ]){            
+            withDockerRegistry([ credentialsId: "dockerhub", url: "https://registry.hub.docker.com/" ]){            
                       dockerImage.push("${env.BUILD_ID}")
             //sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
