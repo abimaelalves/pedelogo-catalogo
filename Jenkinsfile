@@ -15,7 +15,7 @@ podTemplate(yaml: '''
       git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
       container('docker-container') {
         stage('test') {
-          sh 'ls -l'
+          bash 'ls -l'
         }
       }
     }
