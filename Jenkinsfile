@@ -48,7 +48,7 @@ spec:
           }
         }
 
-        stage('Deploy k8s')
+        stage('Deploy k8s') {
           agent {
             kubernetes {
               cloud 'kubernetes'
@@ -58,6 +58,8 @@ spec:
             steps {
               kubernetesDeploy(config: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kube')
             }
+            
+        }
     }
   }
   
