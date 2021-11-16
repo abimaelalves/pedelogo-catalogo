@@ -7,11 +7,11 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: busybox
-        image: abimasantos/containerkubectl:v2
+        image: jenkinsci/jnlp-slave
         command:
-        - sleep
+        - /bin/bash -c
         args:
-        - 99d
+        - cat
     ''') {
     node(POD_LABEL) {
       container('busybox') {
