@@ -1,8 +1,3 @@
-    environment { 
-      registry = "abimasantos/pedelogo-catalogo" 
-      registryCredential = 'dockerhub' 
-      dockerImage = '' 
-  }
 podTemplate(yaml: """
 apiVersion: v1
 kind: Pod
@@ -37,25 +32,16 @@ spec:
             }
           }
 
-        stage('docker push') {
-          container('docker') {
-            docker.withRegistry( '', registryCredential ) { 
-            dockerImage.push('latest') 
-            dockerImage.push("${env.BUILD_ID}")
-                  }
-          }
-          }
-
-//     stage('Push image SANDBOX') {
-//       steps {
-//         echo "Pushing Docker image"
-//           container('docker') {
-//             withCredentials([usernamePassword(credentialsId: 'DockerCredentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
-//               sh 'docker push bionexo/plannexoweb:sandbox'
-//             }
-//           }
-//       }
-//     }          
+     stage('Push image SANDBOX') {
+       steps {
+         echo "Pushing Docker image"
+           container('docker') {
+             withCredentials([usernamePassword(credentialsId: 'DockerCredentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+               sh 'docker push abimasantos/pedelogo-catalogo'
+             }
+           }
+       }
+     }          
         
     }
     
