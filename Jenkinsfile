@@ -10,13 +10,6 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
-  - name: docker2
-    image: docker:1.11
-    command: ['cat']
-    tty: true
-    volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock      
   volumes:
   - name: dockersock
     hostPath:
@@ -25,21 +18,21 @@ spec:
   ) {
 
     node(POD_LABEL) {
-        
         stage('git clone') {
           container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
            }
         }
-    }
-
-      stage('docker build') {
-        container('docker2') {
-          dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-          '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+        
+        stage('docker build') {
+          container('docker-container') {
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+            }
           }
-        }
-
+        
+    }
+    
   }
 
 // backup
