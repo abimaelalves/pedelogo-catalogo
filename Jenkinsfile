@@ -34,6 +34,8 @@ spec:
           }     
 
         stage('docker build') {
+          registry = "abimaesantos/pedelogo-catalogo"
+          registryCredential = 'dockerhub'
           container('docker') {
             sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
