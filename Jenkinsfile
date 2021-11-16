@@ -33,7 +33,6 @@ spec:
             }
           }     
 
-        agent any
         stage('docker build') {
           registry = "abimaesantos/pedelogo-catalogo"
           registryCredential = 'dockerhub'
