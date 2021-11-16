@@ -22,8 +22,8 @@ spec:
   ) {
    
     node(POD_LABEL) {
-      checkout scm
-      agent any
+
+        stages {
 
         stage('git clone') {
           container('docker') {
@@ -46,8 +46,8 @@ spec:
             }
           }       
         }
+    } 
     }
-    
   }
 
 // backup
