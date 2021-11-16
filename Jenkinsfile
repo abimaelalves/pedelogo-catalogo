@@ -10,6 +10,8 @@ spec:
     env:
     - name: REGISTRY
       value: registry.hub.docker.com
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins"
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock      
@@ -41,6 +43,7 @@ spec:
             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
               sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
               sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
+              sh "docker push abimasantos/pedelogo-catalogo:latest"
             }
           }
         }
