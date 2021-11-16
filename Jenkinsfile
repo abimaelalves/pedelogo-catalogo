@@ -1,3 +1,7 @@
+environment {
+      registry = "abimaesantos/pedelogo-catalogo"
+      registryCredential = 'dockerhub'
+   }
 podTemplate(yaml: """
 apiVersion: v1
 kind: Pod
@@ -34,8 +38,6 @@ spec:
           }     
 
         stage('docker build') {
-          registry = "abimaesantos/pedelogo-catalogo"
-          registryCredential = 'dockerhub'
           container('docker') {
             sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
