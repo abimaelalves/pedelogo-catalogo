@@ -22,7 +22,6 @@ podTemplate(yaml: '''
     }
 
   }
-}
 
 //podTemplate(yaml: '''
 //    apiVersion: v1
