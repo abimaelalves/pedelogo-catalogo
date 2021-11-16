@@ -30,6 +30,7 @@ node(POD_LABEL) {
           git clone https://github.com/abimaelalves/pedelogo-catalogo.git
           ls -l
           hostname
+          docker ps
         """)
     }
 
