@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker-container
-        image: abimasantos/containerkubectl:v1
+        image: abimasantos/containerkubectl:v2
         command: ['cat']
         tty: true
         resources:
@@ -22,35 +22,45 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-  
-    def registry = "abimasantos/pedelogo-catalogo" 
-    def registryCredential = 'dockerhub' 
-    def dockerImage = '' 
-  
-  node(POD_LABEL) {
-        stage('git clone') {
-          container('docker-container') {
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-              
-        stage('docker build') {
-          container('docker-container') {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-            }
-          }
-           
-        stage('docker push') {
-          container('docker-container') {
-            docker.withRegistry( '', registryCredential ) { 
-            dockerImage.push('latest') 
-            dockerImage.push("${env.BUILD_ID}")
-                  }
-          }
-          }
-        }
-      }
+  environment { 
+      registry = "abimasantos/pedelogo-catalogo" 
+      registryCredential = 'dockerhub' 
+      dockerImage = '' 
   }
-}
+    node(POD_LABEL) {
+    stage('test pipeline') {
+        sh(script: """
+            echo "hello"
+           git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
+           cd ./docker-development-youtube-series/golang
+           
+           docker build . -t test
+        """)
+    }
+  }
+//  node(POD_LABEL) {
+//        stage('git clone') {
+//          container('docker-container') {
+//            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+//              
+//        stage('docker build') {
+//          container('docker-container') {
+//            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+//            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+//            }
+//          }
+//           
+//        stage('docker push') {
+//          container('docker-container') {
+//            docker.withRegistry( '', registryCredential ) { 
+//            dockerImage.push('latest') 
+//            dockerImage.push("${env.BUILD_ID}")
+//                  }
+//          }
+//          }
+//        }
+//      }
+  }
 
 
 
