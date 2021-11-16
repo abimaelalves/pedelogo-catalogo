@@ -32,14 +32,13 @@ spec:
             }
           }     
         
-        stage('docker build') {
-          docker.withRegistry("https://registry.hub.docker.com/", 'dockerhub'){ 
+        stage {
           container('docker') {
+            script {
+              docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
               dockerapp.push('latest')
-              dockerapp.push("${env.BUILD_ID}")
-            //sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
-          }       
+          }
         }
     } 
   }
