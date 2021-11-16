@@ -33,7 +33,7 @@ spec:
    
     node(POD_LABEL) {
       
-
+      stages{
         stage('git clone') {
           container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
@@ -48,18 +48,9 @@ spec:
           }     
         
         
-      stage('Push docker Image') {
-        container('dockers'){
-      steps {
-      script {
-          docker.withRegistry('', registryCredential) {
-              sh 'docker push abimasantos/pedelogo-catalogo:v1'
-          }
-      }
-      }
-      }
-      }
+        stage('Docker push')
     } 
+    }
   }
 
 // backup
