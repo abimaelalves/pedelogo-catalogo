@@ -24,14 +24,8 @@ spec:
 """
   ) 
   {
-
-  environment {
-      registry = "abimaesantos/pedelogo-catalogo"
-      registryCredential = 'dockerhub'
-   }
-
-   
     node(POD_LABEL) {
+      checkout scm
     
         stage('git clone') {
           container('docker') {
@@ -41,13 +35,12 @@ spec:
         
         stage('docker build') {
           container('docker') {
-            dockerapp = docker.build("${registry}:${env.BUILD_ID}",
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
             }
           }     
       
     }
-  }
   
 
 // backup
