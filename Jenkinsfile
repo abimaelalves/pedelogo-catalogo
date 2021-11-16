@@ -52,11 +52,12 @@ spec:
                registryCredential = 'dockerhub'
            }
         container('docker'){
+          script {
           docker.withRegistry( '', registryCredential ) {
           dockerapp.push()
           dockerapp.push('latest')
         }
-    
+          }
     }
   }
 }
