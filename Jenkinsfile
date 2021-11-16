@@ -22,29 +22,40 @@ podTemplate(yaml: '''
         hostPath: 
             path: /var/run
 ''') {
-  node(POD_LABEL) {
-        stage('git clone') {
-          container('docker-container') {
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-              
-        stage('docker build') {
-          container('docker-container') {
-            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-            }
-          }
-         
-        stage('docker push') {
-          container('docker-container') {
-            docker.withRegistry( '', registryCredential ) { 
-            dockerImage.push('latest') 
-            dockerImage.push("${env.BUILD_ID}")
-                  }
-          }
-          }
-        }
-      }
-  }
+node(POD_LABEL) {
+    
+     stage('test pipeline') {
+        sh(script: """
+          echo "hello"
+           git clone https://github.com/abimaelalves/pedelogo-catalogo.git
+           ls -l
+        """)
+    }
+}
+
+//  node(POD_LABEL) {
+//        stage('git clone') {
+//          container('docker-container') {
+//            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
+//              
+//        stage('docker build') {
+//          container('docker-container') {
+//            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+//            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+//            }
+//          }
+//         
+//        stage('docker push') {
+//          container('docker-container') {
+//            docker.withRegistry( '', registryCredential ) { 
+//            dockerImage.push('latest') 
+//            dockerImage.push("${env.BUILD_ID}")
+//                  }
+//          }
+//          }
+//        }
+//      }
+//  }
 }
 
 
