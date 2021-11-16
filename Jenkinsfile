@@ -23,13 +23,13 @@ spec:
     node(POD_LABEL) {
       checkout scm
     
-        stage('git clone') {
+        stage('Git Clone') {
           container('docker') {
             git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
            }
         }
         
-        stage('docker build') {
+        stage('Docker Build') {
           container('docker') {
             dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
             '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
@@ -38,7 +38,7 @@ spec:
             }
           }   
 
-        stage('Building image'){
+        stage('Docker Push'){
           container('docker'){
             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
               sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
@@ -52,47 +52,6 @@ spec:
     }
   }
   
-
-// backup
-//    def image = "jenkins/jnlp-slave"
-//    node(POD_LABEL) {
-//      stage('Build Docker image') {
-//        git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
-//        container('docker') {
-//          sh "docker build -t ${image} ."
-//        }
-//      }
-//    }
-
-
-
-//  node(POD_LABEL) {
-//        stage('git clone') {
-//          container('docker-container') {
-//            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-//              
-//        stage('docker build') {
-//          container('docker-container') {
-//            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-//            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
-//            }
-//          }
-//         
-//        stage('docker push') {
-//          container('docker-container') {
-//            docker.withRegistry( '', registryCredential ) { 
-//            dockerImage.push('latest') 
-//            dockerImage.push("${env.BUILD_ID}")
-//                  }
-//          }
-//          }
-//        }
-//      }
-//  }
-
-
-
-
 
 //##############################
 
