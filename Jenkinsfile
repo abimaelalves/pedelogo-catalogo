@@ -15,8 +15,13 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
-agent any
-  ) {
+  ) 
+  environment {
+      registry = "abimaesantos/pedelogo-catalogo"
+      registryCredential = 'dockerhub'
+   }
+  
+  {
    
     node(POD_LABEL) {
       
@@ -35,12 +40,13 @@ agent any
           }     
         
         
-        stage {
-          container('docker') {
-            script {
-              docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-              dockerapp.push('latest')
-            }
+        stage('docker push') {
+          container('docker-container') {
+            docker.withRegistry( '', registryCredential ) { 
+            dockerImage.push('latest') 
+            dockerImage.push("${env.BUILD_ID}")
+                  }
+          }
           }
         }
     } 
