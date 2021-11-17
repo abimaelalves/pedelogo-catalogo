@@ -32,8 +32,7 @@ pipeline {
         }
 
         container('docker') {
-            docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
-            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')         
+            sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile'
         }
       }
     }
