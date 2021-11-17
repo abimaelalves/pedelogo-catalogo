@@ -32,7 +32,7 @@ pipeline {
         }
 
         container('docker') {
-            sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile'
+            sh 'docker build -t abimasantos/pedelogo-catalogo:latest -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
         }
       }
     }
