@@ -11,6 +11,9 @@ pipeline {
             command:
             - cat
             tty: true
+            env:
+            - name: REGISTRY
+              value: registry.hub.docker.com
         '''
     }
   }
