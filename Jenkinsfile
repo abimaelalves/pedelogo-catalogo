@@ -32,10 +32,8 @@ pipeline {
         }
 
     stage('Docker Build') {
-      steps {
         container('docker') {
           sh "docker build -t abimasantos/pedelogo-catalogo:${env.BUILD_ID} -f ./src/PedeLogo.Catalogo.Api/Dockerfile ."
-        }
       }
     }
 //
