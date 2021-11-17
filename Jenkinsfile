@@ -23,6 +23,7 @@ pipeline {
         container('docker') {
           sh 'ls -l'
           sh 'echo test'
+          sh 'docker ps'
         }
 //        container('node') {
 //          sh 'npm version'
