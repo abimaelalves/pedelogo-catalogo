@@ -1,83 +1,8 @@
-pipeline { 
-
-    environment {
-      registry = "abimaesantos/pedelogo-catalogo"
-      registryCredential = 'dockerhub'
-   }
+node('jenkins-slave') {
     
-    agent any
-
-
-  stages {
-    stage('Git clone'){
-        steps{
-            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-        }
+     stage('unit-tests') {
+        sh(script: """
+            docker run --rm alpine /bin/sh -c "echo hello world"
+        """)
     }
-
-    stage('Build docker image') {
-      steps {
-        sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-      }
-    }
-    
-    stage('Push docker Image') {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-          sh 'docker push abimasantos/pedelogo-catalogo:v1'
-          }
-        }
-      }
-    }
-
-    stage('k8s') {
-      steps {
-        script {
-          sh 'kubectl apply -f k8s/mongodb/deployment.yaml'
-        }
-      }
-    }
-
-  }
 }
-
-  
-
-//##############################
-
-// pipeline abaixo funcionou, deixando como opção de uso
-//pipeline { 
-//
-//    environment {
-//      registry = "abimaesantos/pedelogo-catalogo"
-//      registryCredential = 'dockerhub'
-//   }
-//    
-//    agent any
-//
-//
-//  stages {
-//    stage('Git clone'){
-//        steps{
-//            git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
-//        }
-//    }
-//
-//    stage('Build docker image') {
-//      steps {
-//        sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-//      }
-//    }
-//    
-//    stage('Push docker Image') {
-//    steps {
-//    script {
-//        docker.withRegistry('', registryCredential) {
-//            sh 'docker push abimasantos/pedelogo-catalogo:v1'
-//        }
-//    }
-//    }
-//    }
-//  }
-//}
