@@ -34,9 +34,7 @@ pipeline {
     stage('k8s') {
       steps {
         script {
-          docker.withRegistry('', registryCredential) {
-          sh 'docker push abimasantos/pedelogo-catalogo:v1'
-          }
+          sh 'kubectl apply -f k8s/mongodb/deployment.yaml'
         }
       }
     }
