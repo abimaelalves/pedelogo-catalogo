@@ -7,7 +7,7 @@ pipeline {
         spec:
           containers:
           - name: docker
-            image: docker:1.11
+            image: abimasantos/containerkubectl:v4
             command:
             - cat
             tty: true
@@ -41,7 +41,6 @@ pipeline {
             sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
           }
-
       }
     }
   }
