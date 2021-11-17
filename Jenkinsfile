@@ -22,14 +22,25 @@ pipeline {
     }
     
     stage('Push docker Image') {
-    steps {
-    script {
-        docker.withRegistry('', registryCredential) {
-            sh 'docker push abimasantos/pedelogo-catalogo:v1'
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+          sh 'docker push abimasantos/pedelogo-catalogo:v1'
+          }
         }
+      }
     }
+
+    stage('k8s') {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+          sh 'docker push abimasantos/pedelogo-catalogo:v1'
+          }
+        }
+      }
     }
-    }
+
   }
 }
 
