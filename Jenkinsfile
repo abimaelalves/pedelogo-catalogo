@@ -49,5 +49,13 @@ pipeline {
           }
       }
     }
+
+    stage('Deploy k8s') {
+      steps {
+        container('docker') {
+          sh 'kubectl'
+        }
+      }
+    }
   }
 }
