@@ -41,6 +41,10 @@ pipeline {
             sh "docker push abimasantos/pedelogo-catalogo:${env.BUILD_ID}"
             }
           }
+        
+        container('docker') {
+          sh 'kubectl'
+        }
       }
     }
   }
