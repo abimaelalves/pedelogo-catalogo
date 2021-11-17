@@ -25,12 +25,10 @@ pipeline {
     }
   }
   stages {
-    stage('Run maven') {
+    stage('Git clone') {
       steps {
         container('docker') {
-          sh 'ls -l'
-          sh 'echo test'
-          sh 'docker ps'
+          git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
         }
 //        container('node') {
 //          sh 'npm version'
