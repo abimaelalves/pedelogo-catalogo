@@ -30,11 +30,18 @@ pipeline {
         container('docker') {
           git url: 'https://github.com/abimaelalves/pedelogo-catalogo.git', branch: 'main'
         }
-//        container('node') {
-//          sh 'npm version'
-//          sh 'cat hello.txt'
-//          sh 'ls -last'
-//        }
+
+     stage ('Docker build') {
+       steps {
+        container('docker') {
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:${env.BUILD_ID}",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+            dockerapp = docker.build("abimasantos/pedelogo-catalogo:latest",
+            '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+            }
+       }
+     }
+      
       }
     }
   }
