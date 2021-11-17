@@ -51,11 +51,16 @@ pipeline {
     }
 
     stage('Deploy k8s') {
-      steps {
-        container('docker') {
-          sh 'kubectl'
+      agent {
+        kubernetes {
+          cloud 'kubernetes'          
         }
       }
+
+      steps {
+        kubernetesDeploy(config 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+      }
+
     }
   }
 }
