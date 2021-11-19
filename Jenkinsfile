@@ -4,13 +4,21 @@ pipeline {
       yaml '''
         apiVersion: v1
         kind: Pod
+        metadata:
+          name: pod-docker-container
         spec:
           containers:
-          - name: docker
-            image: abimasantos/containerkubectl:v4
-            command:
-            - cat
+          - name: docker-container
+            image: docker:19.03.8
+            command: ['cat']
             tty: true
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "250m"
+              limits:
+                memory: "500Mi"
+                cpu: "1000m"
             env:
             - name: REGISTRY
               value: registry.hub.docker.com
