@@ -15,12 +15,12 @@ pipeline {
             - name: REGISTRY
               value: registry.hub.docker.com
             volumeMounts:
-            - name: docker-sock
-              mountPath: /var/run 
+            - name: docker-sock                        
+              mountPath: /var/run
           volumes:
           - name: docker-sock                             
             hostPath: 
-              path: /var/run    
+              path: /docker    
         '''
     }
   }
