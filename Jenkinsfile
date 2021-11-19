@@ -20,7 +20,8 @@ pipeline {
           volumes:
           - name: docker-sock                             
             hostPath: 
-              path: /docker   
+              path: /docker    
+              #path: /var/run
         '''
     }
   }
