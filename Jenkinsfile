@@ -40,35 +40,35 @@ pipeline {
         }
       }
     }
-    stage('Docker Build') {
-      steps {
-        container('docker') {
-          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
-        }
-      }
-    }
-    stage('Docker Push') {
-      steps {
-        container('docker'){
-            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
-            sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
-            sh "docker push abimasantos/pedelogo-catalogo:v1"
-            }
-          }
-      }
-    }
-
-    stage('Deploy k8s') {
-      agent {
-        kubernetes {
-          cloud 'kubernetes'          
-        }
-      }
-
-      steps {
-        kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
-      }
-
-    }
+//    stage('Docker Build') {
+//      steps {
+//        container('docker') {
+//          sh 'docker build -t abimasantos/pedelogo-catalogo:v1 -f ./src/PedeLogo.Catalogo.Api/Dockerfile .'
+//        }
+//      }
+//    }
+//    stage('Docker Push') {
+//      steps {
+//        container('docker'){
+//            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+//            sh 'docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}'
+//            sh "docker push abimasantos/pedelogo-catalogo:v1"
+//            }
+//          }
+//      }
+//    }
+//
+//    stage('Deploy k8s') {
+//      agent {
+//        kubernetes {
+//          cloud 'kubernetes'          
+//        }
+//      }
+//
+//      steps {
+//        kubernetesDeploy(configs: 'k8s/mongodb/deployment.yaml', kubeconfigId: 'kubeconfig')
+//      }
+//
+//    }
   }
 }
