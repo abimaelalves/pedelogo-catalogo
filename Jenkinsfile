@@ -8,7 +8,7 @@ pipeline {
           name: pod-docker-container
         spec:
           containers:
-          - name: docker-container
+          - name: docker
             image: docker:19.03.8
             command: ['cat']
             tty: true
